@@ -1,0 +1,3088 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>校园人才流动 - iPhone 预览</title>
+  <style>
+    /* ===== iPhone 外壳样式 ===== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        background: #1a1a1a;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        padding: 20px;
+    }
+
+    .phone-frame {
+        width: 380px;
+        height: 820px;
+        background: #000;
+        border-radius: 44px;
+        padding: 12px;
+        box-shadow: 0 0 0 2px #2a2a2a, 0 20px 60px rgba(0, 0, 0, 0.8);
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .phone-frame .screen {
+        width: 100%;
+        height: 100%;
+        border-radius: 32px;
+        overflow: hidden;
+        background: #f8fafc;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .phone-frame .notch {
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 30px;
+        background: #000;
+        border-radius: 0 0 20px 20px;
+        z-index: 20;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    .phone-frame .notch .camera {
+        width: 10px;
+        height: 10px;
+        background: #1a1a2e;
+        border-radius: 50%;
+        border: 1px solid #2a2a3e;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+    }
+    .phone-frame .notch .speaker {
+        width: 40px;
+        height: 6px;
+        background: #1a1a2e;
+        border-radius: 3px;
+    }
+
+    .phone-frame .home-indicator {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 134px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+        z-index: 20;
+    }
+
+    .phone-frame .side-btn {
+        position: absolute;
+        right: -2px;
+        width: 3px;
+        height: 30px;
+        background: #1a1a1a;
+        border-radius: 0 2px 2px 0;
+    }
+    .phone-frame .side-btn.top {
+        top: 120px;
+        height: 40px;
+    }
+    .phone-frame .side-btn.mid {
+        top: 180px;
+        height: 80px;
+    }
+    .phone-frame .side-btn.bottom {
+        top: 280px;
+        height: 50px;
+    }
+    .phone-frame .side-btn.left {
+        left: -2px;
+        border-radius: 2px 0 0 2px;
+    }
+    .phone-frame .side-btn.left.top {
+        top: 160px;
+        height: 35px;
+    }
+    .phone-frame .side-btn.left.bottom {
+        top: 220px;
+        height: 70px;
+    }
+
+    /* ================================================================ */
+    /* 以下为系统原有样式 (适配手机壳内部) */
+    /* ================================================================ */
+
+    /* ===== CSS 变量 & 重置 ===== */
+    #app {
+        width: 100%;
+        height: 100%;
+        background: var(--gray-50);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+        font-family: var(--font);
+        color: var(--gray-800);
+        display: flex;
+        flex-direction: column;
+    }
+
+    :root {
+        --primary: #2563eb;
+        --primary-light: #3b82f6;
+        --primary-dark: #1d4ed8;
+        --primary-bg: #eff6ff;
+        --success: #16a34a;
+        --danger: #dc2626;
+        --warning: #f59e0b;
+        --gray-50: #f8fafc;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-400: #94a3b8;
+        --gray-500: #64748b;
+        --gray-600: #475569;
+        --gray-700: #334155;
+        --gray-800: #1e293b;
+        --gray-900: #0f172a;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+        --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+        --radius: 12px;
+        --radius-sm: 8px;
+        --transition: 0.25s ease;
+        --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        --bottom-nav-height: 64px;
+    }
+
+    /* ===== 通用卡片 ===== */
+    .card {
+        background: #fff;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 16px 18px;
+        transition: box-shadow var(--transition);
+    }
+    .card:hover {
+        box-shadow: var(--shadow-lg);
+    }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--gray-200);
+    }
+    .card-header h3 {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--gray-800);
+    }
+    .card-header .badge {
+        font-size: 11px;
+        padding: 2px 10px;
+        border-radius: 20px;
+        background: var(--primary-bg);
+        color: var(--primary);
+        font-weight: 500;
+    }
+
+    /* ===== 按钮 ===== */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--transition);
+        background: var(--gray-200);
+        color: var(--gray-700);
+        text-decoration: none;
+        touch-action: manipulation;
+        min-height: 40px;
+        justify-content: center;
+    }
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+    .btn:active {
+        transform: scale(0.97);
+    }
+    .btn-primary {
+        background: var(--primary);
+        color: #fff;
+    }
+    .btn-primary:hover {
+        background: var(--primary-dark);
+    }
+    .btn-success {
+        background: var(--success);
+        color: #fff;
+    }
+    .btn-success:hover {
+        background: #15803d;
+    }
+    .btn-danger {
+        background: var(--danger);
+        color: #fff;
+    }
+    .btn-danger:hover {
+        background: #b91c1c;
+    }
+    .btn-outline {
+        background: transparent;
+        border: 1.5px solid var(--gray-300);
+    }
+    .btn-outline:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+    .btn-sm {
+        padding: 4px 12px;
+        font-size: 12px;
+        min-height: 32px;
+    }
+    .btn-xs {
+        padding: 2px 10px;
+        font-size: 11px;
+        min-height: 28px;
+    }
+    .btn-block {
+        width: 100%;
+        justify-content: center;
+    }
+    .btn-disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    /* ===== 标签 ===== */
+    .tag {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 500;
+        background: var(--gray-200);
+        color: var(--gray-600);
+        white-space: nowrap;
+    }
+    .tag-primary {
+        background: var(--primary-bg);
+        color: var(--primary);
+    }
+    .tag-success {
+        background: #dcfce7;
+        color: #15803d;
+    }
+    .tag-danger {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+    .tag-warning {
+        background: #fef3c7;
+        color: #b45309;
+    }
+    .tag-idle {
+        background: #f0fdf4;
+        color: #166534;
+    }
+
+    /* ===== 布局 ===== */
+    .flex {
+        display: flex;
+    }
+    .flex-col {
+        flex-direction: column;
+    }
+    .items-center {
+        align-items: center;
+    }
+    .justify-between {
+        justify-content: space-between;
+    }
+    .gap-2 {
+        gap: 8px;
+    }
+    .gap-3 {
+        gap: 12px;
+    }
+    .gap-4 {
+        gap: 16px;
+    }
+    .gap-6 {
+        gap: 24px;
+    }
+    .flex-1 {
+        flex: 1;
+    }
+    .flex-wrap {
+        flex-wrap: wrap;
+    }
+    .w-full {
+        width: 100%;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .text-sm {
+        font-size: 13px;
+    }
+    .text-xs {
+        font-size: 12px;
+    }
+    .text-muted {
+        color: var(--gray-500);
+    }
+    .font-semibold {
+        font-weight: 600;
+    }
+    .mt-1 {
+        margin-top: 4px;
+    }
+    .mt-2 {
+        margin-top: 8px;
+    }
+    .mt-3 {
+        margin-top: 12px;
+    }
+    .mt-4 {
+        margin-top: 16px;
+    }
+    .mt-6 {
+        margin-top: 24px;
+    }
+    .mb-1 {
+        margin-bottom: 4px;
+    }
+    .mb-2 {
+        margin-bottom: 8px;
+    }
+    .mb-3 {
+        margin-bottom: 12px;
+    }
+    .mb-4 {
+        margin-bottom: 16px;
+    }
+    .mb-6 {
+        margin-bottom: 24px;
+    }
+    .p-2 {
+        padding: 8px;
+    }
+    .p-4 {
+        padding: 16px;
+    }
+    .bg-white {
+        background: #fff;
+    }
+    .rounded {
+        border-radius: var(--radius);
+    }
+    .shadow {
+        box-shadow: var(--shadow);
+    }
+    .gap-1 {
+        gap: 4px;
+    }
+    .items-start {
+        align-items: flex-start;
+    }
+    .self-start {
+        align-self: flex-start;
+    }
+    .w-auto {
+        width: auto;
+    }
+    .truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .max-w-xs {
+        max-width: 200px;
+    }
+    .hidden {
+        display: none !important;
+    }
+
+    /* ===== 登录页 ===== */
+    #loginPage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        padding: 20px;
+    }
+    .login-box {
+        background: #fff;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        padding: 32px 28px;
+        width: 100%;
+        max-width: 360px;
+    }
+    .login-box .logo {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+    .login-box .logo h1 {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--primary);
+        letter-spacing: -0.5px;
+    }
+    .login-box .logo p {
+        color: var(--gray-500);
+        font-size: 13px;
+        margin-top: 4px;
+    }
+    .login-box .form-group {
+        margin-bottom: 14px;
+    }
+    .login-box .form-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--gray-700);
+        margin-bottom: 4px;
+    }
+    .login-box .form-group input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.5px solid var(--gray-200);
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        transition: border var(--transition);
+        background: #fff;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    .login-box .form-group input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .login-box .captcha-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .login-box .captcha-row input {
+        flex: 1;
+    }
+    .login-box .captcha-box {
+        background: var(--gray-200);
+        padding: 8px 14px;
+        border-radius: var(--radius-sm);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 4px;
+        color: var(--gray-700);
+        user-select: none;
+        font-family: monospace;
+        cursor: pointer;
+        transition: background 0.2s;
+        min-width: 70px;
+        text-align: center;
+        touch-action: manipulation;
+    }
+    .login-box .captcha-box:hover {
+        background: var(--gray-300);
+    }
+    .login-box .btn-login {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 8px;
+        min-height: 48px;
+    }
+    .login-box .demo-hint {
+        margin-top: 16px;
+        font-size: 11px;
+        color: var(--gray-400);
+        text-align: center;
+        line-height: 1.8;
+        background: var(--gray-50);
+        padding: 10px;
+        border-radius: var(--radius-sm);
+    }
+    .login-box .demo-hint strong {
+        color: var(--gray-600);
+    }
+
+    /* ===== 主布局 ===== */
+    #mainApp {
+        display: none;
+        flex: 1;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    /* ===== 顶部导航 ===== */
+    .topbar {
+        background: #fff;
+        border-bottom: 1px solid var(--gray-200);
+        padding: 0 14px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        flex-shrink: 0;
+    }
+    .topbar .brand {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .topbar .brand span {
+        color: var(--gray-600);
+        font-weight: 400;
+        font-size: 11px;
+        display: none;
+    }
+    .topbar .user-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+    .topbar .user-info .avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--primary-bg);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 11px;
+    }
+    .topbar .user-info .name {
+        font-weight: 500;
+        font-size: 13px;
+        max-width: 70px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .topbar .user-info .role-tag {
+        font-size: 10px;
+        padding: 1px 8px;
+        border-radius: 20px;
+        background: var(--primary-bg);
+        color: var(--primary);
+        white-space: nowrap;
+    }
+    .topbar .user-info .role-tag.tag-captain {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+    .topbar .user-info .role-tag.tag-member {
+        background: #dcfce7;
+        color: #15803d;
+    }
+    .topbar .user-info .role-tag.tag-idle {
+        background: #f0fdf4;
+        color: #166534;
+    }
+    .topbar .user-info .logout-btn {
+        cursor: pointer;
+        color: var(--gray-400);
+        font-size: 12px;
+        transition: color var(--transition);
+        touch-action: manipulation;
+    }
+    .topbar .user-info .logout-btn:hover {
+        color: var(--danger);
+    }
+
+    /* ===== 主体内容 ===== */
+    .main-body {
+        flex: 1;
+        padding: 12px 12px 0;
+        overflow-y: auto;
+    }
+
+    /* ===== 侧边栏（桌面隐藏，移动端用底部导航） ===== */
+    .sidebar {
+        display: none !important;
+    }
+
+    /* ===== 底部导航 (移动端) ===== */
+    .bottom-nav {
+        display: flex !important;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-top: 1px solid var(--gray-200);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        justify-content: space-around;
+        align-items: center;
+        height: var(--bottom-nav-height);
+        padding: 0 4px;
+        padding-bottom: env(safe-area-inset-bottom);
+        z-index: 200;
+        margin-top: auto;
+        width: 100%;
+        position: sticky;
+        bottom: 0;
+    }
+    .bottom-nav .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        padding: 4px 0;
+        color: var(--gray-500);
+        font-size: 10px;
+        cursor: pointer;
+        transition: color var(--transition);
+        touch-action: manipulation;
+        min-height: 56px;
+        border: none;
+        background: transparent;
+        position: relative;
+    }
+    .bottom-nav .nav-item .nav-icon {
+        font-size: 20px;
+        line-height: 1.2;
+    }
+    .bottom-nav .nav-item .nav-label {
+        font-size: 9px;
+        margin-top: 2px;
+        line-height: 1.2;
+    }
+    .bottom-nav .nav-item.active {
+        color: var(--primary);
+    }
+    .bottom-nav .nav-item.active .nav-label {
+        font-weight: 600;
+    }
+    .bottom-nav .nav-item .badge-dot {
+        position: absolute;
+        top: 6px;
+        right: 50%;
+        transform: translateX(16px);
+        width: 6px;
+        height: 6px;
+        background: var(--danger);
+        border-radius: 50%;
+    }
+    .bottom-nav .nav-item.disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    /* ===== 内容区 ===== */
+    .content-area {
+        flex: 1;
+        min-width: 0;
+        padding-bottom: 8px;
+    }
+    .page-section {
+        display: none;
+        animation: fadeUp 0.3s ease;
+    }
+    .page-section.active {
+        display: block;
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ===== 统计卡片 ===== */
+    .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    .stat-card {
+        background: #fff;
+        border-radius: var(--radius);
+        padding: 12px 14px;
+        box-shadow: var(--shadow);
+    }
+    .stat-card .num {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--gray-900);
+    }
+    .stat-card .label {
+        font-size: 11px;
+        color: var(--gray-500);
+        margin-top: 2px;
+    }
+    .stat-card .trend {
+        font-size: 11px;
+        font-weight: 500;
+        margin-top: 4px;
+    }
+    .stat-card .trend.up {
+        color: var(--success);
+    }
+    .stat-card .trend.down {
+        color: var(--danger);
+    }
+
+    /* ===== 表格 ===== */
+    .table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -4px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        min-width: 360px;
+    }
+    table th {
+        text-align: left;
+        padding: 6px 8px;
+        background: var(--gray-50);
+        font-weight: 600;
+        color: var(--gray-600);
+        border-bottom: 2px solid var(--gray-200);
+        font-size: 11px;
+    }
+    table td {
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--gray-100);
+        vertical-align: middle;
+        font-size: 12px;
+    }
+    table tr:hover td {
+        background: var(--gray-50);
+    }
+    table .actions {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+    }
+
+    /* ===== 项目卡片 ===== */
+    .project-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .project-card {
+        background: #fff;
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        box-shadow: var(--shadow);
+        border-left: 5px solid var(--primary);
+        transition: all var(--transition);
+        cursor: pointer;
+        position: relative;
+        touch-action: manipulation;
+    }
+    .project-card:active {
+        transform: scale(0.98);
+    }
+    .project-card .title {
+        font-weight: 600;
+        font-size: 15px;
+        margin-bottom: 4px;
+        color: var(--gray-900);
+    }
+    .project-card .meta {
+        font-size: 12px;
+        color: var(--gray-500);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .project-card .desc {
+        font-size: 13px;
+        color: var(--gray-600);
+        margin: 8px 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .project-card .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin: 6px 0 12px;
+    }
+    .project-card .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--gray-100);
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    /* ===== 模态框 ===== */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        animation: fadeIn 0.25s ease;
+    }
+    .modal-overlay.active {
+        display: flex;
+    }
+    .modal-box {
+        background: #fff;
+        border-radius: var(--radius);
+        max-width: 100%;
+        width: 100%;
+        max-height: 92vh;
+        overflow-y: auto;
+        padding: 20px 16px;
+        box-shadow: var(--shadow-lg);
+        animation: slideUp 0.3s ease;
+        position: relative;
+        margin: 0 4px;
+    }
+    .modal-box .close-btn {
+        position: absolute;
+        right: 14px;
+        top: 10px;
+        font-size: 26px;
+        cursor: pointer;
+        color: var(--gray-400);
+        transition: color var(--transition);
+        background: none;
+        border: none;
+        touch-action: manipulation;
+        padding: 8px;
+    }
+    .modal-box .close-btn:hover {
+        color: var(--gray-800);
+    }
+    .modal-box h2 {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        padding-right: 30px;
+    }
+    .modal-box .subtitle {
+        color: var(--gray-500);
+        font-size: 13px;
+        margin-bottom: 14px;
+    }
+    .modal-box .detail-row {
+        display: flex;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--gray-100);
+        flex-wrap: wrap;
+    }
+    .modal-box .detail-row .label {
+        width: 80px;
+        font-weight: 500;
+        color: var(--gray-600);
+        flex-shrink: 0;
+        font-size: 12px;
+    }
+    .modal-box .detail-row .value {
+        flex: 1;
+        color: var(--gray-800);
+        font-size: 12px;
+    }
+    .modal-box .detail-row .value .tag {
+        margin-right: 4px;
+    }
+    .modal-box .modal-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 2px solid var(--gray-100);
+        flex-wrap: wrap;
+    }
+    .modal-box .modal-actions .btn {
+        flex: 1 1 100%;
+        min-width: 100%;
+        justify-content: center;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* ===== 表单 ===== */
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    .form-row .full {
+        grid-column: 1;
+    }
+    .form-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--gray-700);
+        margin-bottom: 4px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1.5px solid var(--gray-200);
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        transition: border var(--transition);
+        font-family: inherit;
+        -webkit-appearance: none;
+        appearance: none;
+        background: #fff;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    /* ===== 消息通知 ===== */
+    .notification-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .notification-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        background: #fff;
+        border-radius: var(--radius-sm);
+        border-left: 4px solid var(--primary);
+        box-shadow: var(--shadow);
+        touch-action: manipulation;
+    }
+    .notification-item .nt-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+    .notification-item .nt-content {
+        flex: 1;
+        min-width: 0;
+    }
+    .notification-item .nt-content .nt-title {
+        font-weight: 500;
+        font-size: 13px;
+    }
+    .notification-item .nt-content .nt-time {
+        font-size: 11px;
+        color: var(--gray-400);
+    }
+    .notification-item .nt-badge {
+        font-size: 10px;
+        padding: 1px 8px;
+        border-radius: 20px;
+        background: var(--primary-bg);
+        color: var(--primary);
+        white-space: nowrap;
+    }
+
+    /* ===== 信誉积分 ===== */
+    .credit-score {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        background: #fff;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        flex-wrap: wrap;
+    }
+    .credit-score .score-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+        background: var(--primary);
+        flex-shrink: 0;
+    }
+    .credit-score .score-circle.good {
+        background: var(--success);
+    }
+    .credit-score .score-circle.warn {
+        background: var(--warning);
+    }
+    .credit-score .score-circle.danger {
+        background: var(--danger);
+    }
+    .credit-score .score-info {
+        flex: 1;
+        min-width: 100px;
+    }
+    .credit-score .score-info .label {
+        font-size: 12px;
+        color: var(--gray-500);
+    }
+    .credit-score .score-info .level {
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    /* ===== 规则提示条 ===== */
+    .rule-banner {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        border: 1px solid #f59e0b;
+        border-radius: var(--radius-sm);
+        padding: 10px 14px;
+        margin-bottom: 16px;
+        font-size: 12px;
+        color: #92400e;
+        line-height: 1.7;
+    }
+    .rule-banner strong {
+        color: #78350f;
+    }
+    .rule-banner .rule-icon {
+        font-size: 16px;
+        margin-right: 6px;
+    }
+
+    /* ===== 锁定卡片 ===== */
+    .lock-card {
+        background: #fff;
+        border-radius: var(--radius);
+        padding: 24px 16px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        margin-top: 16px;
+    }
+    .lock-card .lock-icon {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+    .lock-card h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--gray-800);
+        margin-bottom: 6px;
+    }
+    .lock-card p {
+        font-size: 13px;
+        color: var(--gray-500);
+        line-height: 1.7;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    .lock-card .unlock-hint {
+        margin-top: 14px;
+        font-size: 12px;
+        color: var(--danger);
+        background: #fee2e2;
+        padding: 6px 14px;
+        border-radius: var(--radius-sm);
+        display: inline-block;
+    }
+
+    /* ===== Toast 通知 ===== */
+    .toast-container {
+        position: fixed;
+        top: 60px;
+        left: 12px;
+        right: 12px;
+        z-index: 2000;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 100%;
+    }
+    .toast {
+        background: #fff;
+        border-radius: var(--radius-sm);
+        padding: 10px 14px;
+        box-shadow: var(--shadow-lg);
+        font-size: 13px;
+        color: var(--gray-800);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: toastIn 0.35s ease;
+        border-left: 4px solid var(--primary);
+        word-break: break-word;
+    }
+    .toast.toast-error {
+        border-left-color: var(--danger);
+    }
+    .toast.toast-success {
+        border-left-color: var(--success);
+    }
+    .toast.toast-warning {
+        border-left-color: var(--warning);
+    }
+    .toast.toast-out {
+        animation: toastOut 0.3s ease forwards;
+    }
+    @keyframes toastIn {
+        from {
+            opacity: 0;
+            transform: translateX(60px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    @keyframes toastOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(60px);
+        }
+    }
+
+    /* ===== 加载遮罩 ===== */
+    .loading-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(2px);
+        z-index: 1000;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: #fff;
+        padding: 20px;
+    }
+    .loading-overlay.active {
+        display: flex;
+    }
+    .loading-overlay .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-bottom: 14px;
+    }
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    .loading-overlay p {
+        font-size: 15px;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    /* ===== 手机壳内滚动条美化 ===== */
+    #app::-webkit-scrollbar {
+        width: 3px;
+    }
+    #app::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    #app::-webkit-scrollbar-thumb {
+        background: var(--gray-300);
+        border-radius: 10px;
+    }
+
+    /* ===== 响应式微调 ===== */
+    @media (max-width: 400px) {
+        .phone-frame {
+            width: 100%;
+            height: 100vh;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            margin: 0;
+        }
+        .phone-frame .screen {
+            border-radius: 0;
+        }
+        .phone-frame .notch,
+        .phone-frame .home-indicator,
+        .phone-frame .side-btn {
+            display: none;
+        }
+        body {
+            padding: 0;
+            background: #f8fafc;
+        }
+        .topbar .brand span {
+            display: none;
+        }
+    }
+
+    /* 安全区域适配 */
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        .bottom-nav {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== iPhone 外壳 ===== -->
+<div class="phone-frame">
+  <!-- 装饰按钮 -->
+  <div class="side-btn top"></div>
+  <div class="side-btn mid"></div>
+  <div class="side-btn bottom"></div>
+  <div class="side-btn left top"></div>
+  <div class="side-btn left bottom"></div>
+
+  <!-- 刘海 -->
+  <div class="notch">
+    <span class="camera"></span>
+    <span class="speaker"></span>
+  </div>
+
+  <!-- 屏幕区域 -->
+  <div class="screen">
+    <!-- ===== 系统根容器 ===== -->
+    <div id="app">
+
+      <!-- ===== 登录页 ===== -->
+      <div id="loginPage">
+        <div class="login-box">
+          <div class="logo">
+            <h1>校园人才流动</h1>
+            <p>大创项目匹配平台 · v6.0</p>
+          </div>
+          <div class="form-group">
+            <label>学号 / 工号</label>
+            <input type="text" id="loginId" placeholder="请输入学号或工号" value="2024001">
+          </div>
+          <div class="form-group">
+            <label>密码</label>
+            <input type="password" id="loginPwd" placeholder="请输入密码" value="123456">
+          </div>
+          <div class="form-group">
+            <label>验证码</label>
+            <div class="captcha-row">
+              <input type="text" id="captchaInput" placeholder="请输入验证码" maxlength="4" autocomplete="off">
+              <span class="captcha-box" id="captchaDisplay">A7K2</span>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-login" id="loginBtn">登录</button>
+          <div class="demo-hint">
+            <strong>演示账号</strong><br>
+            空闲学生：2024001 / 123456<br>
+            队长学生：2024002 / 123456<br>
+            队员学生：2024003 / 123456<br>
+            教师：T2024001 / 123456<br>
+            管理员：admin / 123456
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 主应用 ===== -->
+      <div id="mainApp">
+        <header class="topbar">
+          <div class="brand">
+            校园人才流动
+            <span>| 大创项目匹配平台</span>
+          </div>
+          <div class="user-info">
+            <span class="role-tag" id="currentRoleTag">学生</span>
+            <span class="name" id="currentUserName">张同学</span>
+            <div class="avatar" id="currentAvatar">张</div>
+            <span class="logout-btn" id="logoutBtn">退出</span>
+          </div>
+        </header>
+        <div class="main-body">
+          <aside class="sidebar" id="sidebar"></aside>
+          <div class="content-area" id="contentArea"></div>
+        </div>
+        <!-- 底部导航 (移动端) - 放在 main-body 下方，确保在屏幕底部 -->
+        <nav class="bottom-nav" id="bottomNav"></nav>
+      </div>
+
+      <!-- 模态框 -->
+      <div class="modal-overlay" id="projectModal">
+        <div class="modal-box">
+          <button class="close-btn" id="closeModalBtn">&times;</button>
+          <div id="modalContent"></div>
+        </div>
+      </div>
+
+      <!-- 加载遮罩 -->
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>正在连接教务系统进行身份验证...</p>
+        <p style="font-size:13px;opacity:0.8;margin-top:4px;">请稍候</p>
+      </div>
+
+      <!-- Toast 容器 -->
+      <div class="toast-container" id="toastContainer"></div>
+
+    </div>
+    <!-- ===== 系统根容器结束 ===== -->
+  </div>
+
+  <!-- Home Indicator -->
+  <div class="home-indicator"></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 系统 JavaScript -->
+<!-- ================================================================ -->
+<script>
+  // ================================================================
+  // 核心规则说明
+  // ================================================================
+  // 1. 每个学生有三种状态之一：idle(空闲) / captain(队长) / member(队员)
+  // 2. 空闲 → 可以发布项目（变成队长）或申请加入项目（变成队员）
+  // 3. 队长 → 只能管理自己发布的那个项目，不能加入其他项目
+  // 4. 队员 → 只能查看自己加入的那个项目，不能发布项目
+  // 5. 一个学生同一时间只能存在于一个项目中
+  // ================================================================
+
+  // ================================================================
+  // 数据模拟
+  // ================================================================
+
+  const USER_DB = {
+      '2024001': {
+          name: '赵同学',
+          role: 'student',
+          status: 'idle',
+          avatar: '赵',
+          credit: 88,
+          creditLevel: '优秀',
+          projectId: null,
+          notifications: [
+              { icon: '💡', title: '你当前处于空闲状态，可以发布项目或申请加入', time: '刚刚', type: '提示' },
+          ]
+      },
+      '2024002': {
+          name: '张同学',
+          role: 'student',
+          status: 'captain',
+          avatar: '张',
+          credit: 85,
+          creditLevel: '良好',
+          projectId: 'P001',
+          notifications: [
+              { icon: '📩', title: '你的项目 "AI医疗影像" 有新申请', time: '10分钟前', type: '申请' },
+          ]
+      },
+      '2024003': {
+          name: '李同学',
+          role: 'student',
+          status: 'member',
+          avatar: '李',
+          credit: 78,
+          creditLevel: '良好',
+          projectId: 'P002',
+          notifications: [
+              { icon: '✅', title: '你已成功加入 "校园二手交易" 项目', time: '2小时前', type: '入队' },
+          ]
+      },
+      '2024004': {
+          name: '王同学',
+          role: 'student',
+          status: 'member',
+          avatar: '王',
+          credit: 92,
+          creditLevel: '优秀',
+          projectId: 'P005',
+          notifications: [
+              { icon: '📊', title: '项目 "学术会议" 阶段报告已提交', time: '3小时前', type: '报告' },
+          ]
+      },
+      'T2024001': {
+          name: '王教授',
+          role: 'teacher',
+          status: null,
+          avatar: '王',
+          credit: 100,
+          creditLevel: '优秀',
+          projectId: null,
+          notifications: [
+              { icon: '📋', title: '项目 "AI医疗影像" 有协作异常反馈', time: '15分钟前', type: '异常' },
+              { icon: '📊', title: '项目 "交通流预测" 阶段报告已提交', time: '1小时前', type: '报告' },
+          ]
+      },
+      'admin': {
+          name: '系统管理员',
+          role: 'admin',
+          status: null,
+          avatar: '管',
+          credit: 100,
+          creditLevel: '优秀',
+          projectId: null,
+          notifications: [
+              { icon: '🛡️', title: '系统安全扫描完成，无异常', time: '30分钟前', type: '系统' },
+              { icon: '📈', title: '本月新增用户 156 人，环比 +12%', time: '2小时前', type: '统计' },
+          ]
+      }
+  };
+
+  // 项目列表
+  const PROJECTS = [{
+      id: 'P001',
+      name: 'AI 医疗影像辅助诊断',
+      desc: '基于深度学习的肺结节检测与分类系统，需要医学影像处理与模型训练经验。项目目标是开发高精度辅助诊断模型。',
+      leaderId: '2024002',
+      leader: '张同学',
+      need: '医学影像 / 计算机视觉',
+      members: ['2024005', '2024006'],
+      total: 5,
+      status: '招募中',
+      tags: ['深度学习', '医学影像', 'Python', 'PyTorch'],
+      tasks: ['数据预处理与标注', '模型架构设计', '训练调优', '系统集成'],
+      creditRequired: 70,
+      createdAt: '2026-06-20'
+  }, {
+      id: 'P002',
+      name: '校园二手交易小程序',
+      desc: '开发一款校园内二手物品交易平台，包含发布、搜索、聊天、评价等功能。注重用户体验与轻量化设计。',
+      leaderId: '2024007',
+      leader: '陈同学',
+      need: '前端 / 后端 / UI设计',
+      members: ['2024003', '2024008', '2024009'],
+      total: 4,
+      status: '进行中',
+      tags: ['微信小程序', 'Node.js', 'UI设计', '数据库'],
+      tasks: ['数据库设计', 'API开发', '小程序端开发', '测试部署'],
+      creditRequired: 60,
+      createdAt: '2026-06-15'
+  }, {
+      id: 'P003',
+      name: '基于深度学习的交通流预测',
+      desc: '利用LSTM模型对城市交通流量进行预测，为智慧城市提供决策支持。项目需处理大规模时序数据。',
+      leaderId: '2024010',
+      leader: '孙同学',
+      need: 'AI / 数据科学',
+      members: [],
+      total: 5,
+      status: '招募中',
+      tags: ['LSTM', '交通', '数据分析', 'TensorFlow'],
+      tasks: ['数据采集清洗', '特征工程', '模型训练', '可视化'],
+      creditRequired: 75,
+      createdAt: '2026-06-18'
+  }, {
+      id: 'P004',
+      name: '智慧校园地图导航',
+      desc: '结合室内定位技术，为校园提供室内外一体化导航服务，包含AR导航功能。',
+      leaderId: '2024011',
+      leader: '周同学',
+      need: 'GIS / AR开发',
+      members: [],
+      total: 4,
+      status: '招募中',
+      tags: ['GIS', 'AR', '定位', 'Unity'],
+      tasks: ['地图数据采集', 'AR导航模块', '定位算法', 'UI界面'],
+      creditRequired: 65,
+      createdAt: '2026-06-22'
+  }, {
+      id: 'P005',
+      name: '在线学术会议系统',
+      desc: '为校内学术交流打造在线会议平台，支持论文投稿、评审、直播等功能。',
+      leaderId: '2024012',
+      leader: '吴同学',
+      need: '全栈开发 / 运维',
+      members: ['2024004', '2024013', '2024014', '2024015'],
+      total: 6,
+      status: '进行中',
+      tags: ['WebRTC', 'Vue', 'Spring Boot', 'Docker'],
+      tasks: ['需求设计', '前后端开发', '直播集成', '部署运维'],
+      creditRequired: 60,
+      createdAt: '2026-06-10'
+  }, {
+      id: 'P006',
+      name: '校园心理健康助手',
+      desc: '基于自然语言处理技术构建校园心理支持聊天机器人，提供情感陪伴与初步心理疏导服务。',
+      leaderId: '2024016',
+      leader: '郑同学',
+      need: 'NLP / 心理学',
+      members: [],
+      total: 4,
+      status: '招募中',
+      tags: ['NLP', '情感分析', 'Python', 'Flask'],
+      tasks: ['语料收集', '模型微调', 'API开发', '测试优化'],
+      creditRequired: 80,
+      createdAt: '2026-06-25'
+  }];
+
+  // 待审核的申请列表
+  let APPLICATIONS = [
+      { id: 'APP001', projectId: 'P001', studentId: '2024001', studentName: '赵同学', message: '我有PyTorch经验，希望加入',
+          status: '待审核', time: '5分钟前' },
+      { id: 'APP002', projectId: 'P001', studentId: '2024017', studentName: '钱同学', message: '对医学影像很感兴趣',
+          status: '待审核', time: '20分钟前' },
+      { id: 'APP003', projectId: 'P003', studentId: '2024018', studentName: '刘同学', message: '擅长LSTM时序预测',
+          status: '待审核', time: '1小时前' },
+  ];
+
+  // ================================================================
+  // 状态管理
+  // ================================================================
+  let state = {
+      loggedIn: false,
+      currentUser: null,
+      currentUserId: null,
+      currentRole: 'student',
+      currentStudentStatus: 'idle',
+      currentMenu: 'dashboard',
+      showcaseFilter: 'all',
+      showcaseSearch: '',
+  };
+
+  // ================================================================
+  // DOM 引用
+  // ================================================================
+  const $ = id => document.getElementById(id);
+  const loginPage = $('loginPage');
+  const mainApp = $('mainApp');
+  const loginBtn = $('loginBtn');
+  const logoutBtn = $('logoutBtn');
+  const loginIdInput = $('loginId');
+  const loginPwdInput = $('loginPwd');
+  const captchaInput = $('captchaInput');
+  const captchaDisplay = $('captchaDisplay');
+  const sidebar = $('sidebar');
+  const bottomNav = $('bottomNav');
+  const contentArea = $('contentArea');
+  const currentRoleTag = $('currentRoleTag');
+  const currentUserName = $('currentUserName');
+  const currentAvatar = $('currentAvatar');
+  const projectModal = $('projectModal');
+  const modalContent = $('modalContent');
+  const closeModalBtn = $('closeModalBtn');
+  const loadingOverlay = $('loadingOverlay');
+  const toastContainer = $('toastContainer');
+
+  // ================================================================
+  // Toast 通知系统
+  // ================================================================
+  function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      const iconMap = { info: 'ℹ️', error: '❌', success: '✅', warning: '⚠️' };
+      toast.innerHTML = `<span>${iconMap[type] || 'ℹ️'}</span><span>${message}</span>`;
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+          toast.classList.add('toast-out');
+          setTimeout(() => toast.remove(), 300);
+      }, 3000);
+  }
+
+  // ================================================================
+  // 工具函数
+  // ================================================================
+  function getStudentStatusLabel(status) {
+      const map = { idle: '空闲', captain: '队长', member: '队员' };
+      return map[status] || status;
+  }
+
+  function getStatusTag(status) {
+      const map = {
+          '招募中': 'tag-primary',
+          '进行中': 'tag-success',
+          '已完成': 'tag-success',
+          '待处理': 'tag-warning',
+          '处理中': 'tag-warning',
+          '审核中': 'tag-warning',
+          '未开始': 'tag-warning',
+          '已结束': 'tag-danger',
+          '已拒绝': 'tag-danger',
+      };
+      return map[status] || 'tag';
+  }
+
+  function getCreditColor(score) {
+      if (score >= 80) return 'good';
+      if (score >= 60) return 'warn';
+      return 'danger';
+  }
+
+  function getProjectById(id) {
+      return PROJECTS.find(p => p.id === id);
+  }
+
+  function generateCaptcha() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let r = '';
+      for (let i = 0; i < 4; i++) r += chars.charAt(Math.floor(Math.random() * chars.length));
+      return r;
+  }
+
+  function getMyProject(userId) {
+      const user = USER_DB[userId];
+      if (!user || !user.projectId) return null;
+      return getProjectById(user.projectId);
+  }
+
+  function getProjectMemberCount(project) {
+      return 1 + (project.members ? project.members.length : 0);
+  }
+
+  function isStudentInProject(studentId, projectId) {
+      const user = USER_DB[studentId];
+      return user && user.projectId === projectId;
+  }
+
+  // ================================================================
+  // 验证码
+  // ================================================================
+  let captchaText = 'A7K2';
+  captchaDisplay.addEventListener('click', () => {
+      captchaText = generateCaptcha();
+      captchaDisplay.textContent = captchaText;
+  });
+
+  // ================================================================
+  // 登录逻辑
+  // ================================================================
+  loginBtn.addEventListener('click', handleLogin);
+  loginPwdInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+
+  function handleLogin() {
+      const id = loginIdInput.value.trim();
+      const pwd = loginPwdInput.value.trim();
+      const cap = captchaInput.value.trim().toUpperCase();
+
+      if (!id || !pwd) { showToast('请填写学号和密码', 'error'); return; }
+      if (cap !== captchaText) { showToast('验证码错误，请重新输入', 'error');
+          captchaText = generateCaptcha();
+          captchaDisplay.textContent = captchaText;
+          captchaInput.value = ''; return; }
+      if (!USER_DB[id]) { showToast('该账号不存在', 'error'); return; }
+      if (pwd !== '123456') { showToast('密码错误', 'error'); return; }
+
+      loadingOverlay.classList.add('active');
+      setTimeout(() => {
+          const user = USER_DB[id];
+          state.loggedIn = true;
+          state.currentUser = user;
+          state.currentUserId = id;
+          state.currentRole = user.role;
+          state.currentStudentStatus = user.status || 'idle';
+          state.currentMenu = 'dashboard';
+
+          loginPage.style.display = 'none';
+          mainApp.style.display = 'flex';
+          loadingOverlay.classList.remove('active');
+
+          updateTopbar();
+          renderSidebar();
+          renderBottomNav();
+          renderContent();
+
+          if (user.role === 'student') {
+              if (user.status === 'captain') {
+                  const proj = getMyProject(id);
+                  showToast(`欢迎，${user.name}！你当前是项目「${proj ? proj.name : ''}」的队长`, 'info');
+              } else if (user.status === 'member') {
+                  const proj = getMyProject(id);
+                  showToast(`欢迎，${user.name}！你当前是项目「${proj ? proj.name : ''}」的队员`, 'info');
+              } else {
+                  showToast(`欢迎，${user.name}！你当前处于空闲状态，可以发布项目或申请加入`, 'info');
+              }
+          } else {
+              showToast(`欢迎回来，${user.name}！`, 'success');
+          }
+      }, 1200);
+  }
+
+  // ================================================================
+  // 退出登录
+  // ================================================================
+  logoutBtn.addEventListener('click', () => {
+      state.loggedIn = false;
+      state.currentUser = null;
+      state.currentUserId = null;
+      mainApp.style.display = 'none';
+      loginPage.style.display = 'flex';
+      captchaInput.value = '';
+      bottomNav.innerHTML = '';
+  });
+
+  // ================================================================
+  // 顶部栏更新
+  // ================================================================
+  function updateTopbar() {
+      const user = state.currentUser;
+      currentUserName.textContent = user.name;
+      currentAvatar.textContent = user.avatar;
+
+      if (user.role === 'student') {
+          const s = user.status;
+          const labelMap = { idle: '空闲学生', captain: '学生（队长）', member: '学生（队员）' };
+          const classMap = { idle: 'tag-idle', captain: 'tag-captain', member: 'tag-member' };
+          currentRoleTag.textContent = labelMap[s] || '学生';
+          currentRoleTag.className = 'role-tag ' + (classMap[s] || '');
+      } else if (user.role === 'teacher') {
+          currentRoleTag.textContent = '教师';
+          currentRoleTag.className = 'role-tag';
+      } else {
+          currentRoleTag.textContent = '管理员';
+          currentRoleTag.className = 'role-tag';
+      }
+  }
+
+  // ================================================================
+  // 侧边栏渲染 (桌面)
+  // ================================================================
+  function renderSidebar() {
+      // 移动端不显示侧边栏
+      sidebar.innerHTML = '';
+  }
+
+  // ================================================================
+  // 底部导航渲染 (移动端)
+  // ================================================================
+  function renderBottomNav() {
+      const role = state.currentRole;
+      const s = state.currentStudentStatus;
+      const items = getMenuItems(role, s);
+
+      const navItems = items.filter(i => !i.divider);
+
+      let html = '';
+      navItems.forEach(item => {
+          const active = state.currentMenu === item.id ? 'active' : '';
+          const disabledClass = item.disabled ? 'disabled' : '';
+          const badge = item.badge ? `<span class="badge-dot"></span>` : '';
+          html += `
+              <div class="nav-item ${active} ${disabledClass}" data-menu="${item.id}">
+                  <span class="nav-icon">${item.icon}</span>
+                  <span class="nav-label">${item.shortLabel || item.label}</span>
+                  ${badge}
+              </div>
+          `;
+      });
+
+      bottomNav.innerHTML = html;
+
+      bottomNav.querySelectorAll('.nav-item:not(.disabled)').forEach(el => {
+          el.addEventListener('click', function() {
+              state.currentMenu = this.dataset.menu;
+              renderSidebar();
+              renderBottomNav();
+              renderContent();
+          });
+      });
+      bottomNav.querySelectorAll('.nav-item.disabled').forEach(el => {
+          el.addEventListener('click', function() {
+              const reason = this.querySelector('.nav-label')?.textContent || '不可用';
+              showToast(`无法操作：${reason}`, 'warning');
+          });
+      });
+  }
+
+  // ================================================================
+  // 获取菜单项（统一数据源）
+  // ================================================================
+  function getMenuItems(role, studentStatus) {
+      const common = [
+          { id: 'dashboard', icon: '📊', label: '工作台', shortLabel: '首页' },
+          { id: 'showcase', icon: '🏛️', label: '项目展示', shortLabel: '项目' },
+          { id: 'notifications', icon: '🔔', label: '消息通知', shortLabel: '消息', badge: true },
+      ];
+
+      if (role === 'student') {
+          if (studentStatus === 'idle') {
+              return [
+                  ...common,
+                  { divider: true, label: '项目操作' },
+                  { id: 'publishProject', icon: '📝', label: '发布项目', shortLabel: '发布', hint: '成为队长' },
+                  { id: 'myApplications', icon: '📩', label: '我的申请', shortLabel: '申请' },
+                  { divider: true, label: '个人中心' },
+                  { id: 'creditView', icon: '⭐', label: '我的信誉', shortLabel: '信誉' },
+              ];
+          } else if (studentStatus === 'captain') {
+              return [
+                  ...common,
+                  { divider: true, label: '我的项目' },
+                  { id: 'myProject', icon: '📁', label: '我的项目', shortLabel: '项目' },
+                  { id: 'projectApplications', icon: '📋', label: '申请审核', shortLabel: '审核', badge: true },
+                  { id: 'teamManage', icon: '👥', label: '团队管理', shortLabel: '团队' },
+                  { divider: true, label: '个人中心' },
+                  { id: 'creditView', icon: '⭐', label: '我的信誉', shortLabel: '信誉' },
+                  { id: 'publishProject', icon: '📝', label: '发布项目', shortLabel: '发布', disabled: true,
+                      lockReason: '已是队长' },
+                  { id: 'joinProject', icon: '🤝', label: '申请加入项目', shortLabel: '加入', disabled: true,
+                      lockReason: '已是队长' },
+              ];
+          } else if (studentStatus === 'member') {
+              return [
+                  ...common,
+                  { divider: true, label: '我的项目' },
+                  { id: 'myProject', icon: '🤝', label: '我的项目', shortLabel: '项目' },
+                  { id: 'myTasks', icon: '✅', label: '任务管理', shortLabel: '任务' },
+                  { divider: true, label: '个人中心' },
+                  { id: 'creditView', icon: '⭐', label: '我的信誉', shortLabel: '信誉' },
+                  { id: 'publishProject', icon: '📝', label: '发布项目', shortLabel: '发布', disabled: true,
+                      lockReason: '已是队员' },
+                  { id: 'joinProject', icon: '🤝', label: '申请加入其他项目', shortLabel: '加入', disabled: true,
+                      lockReason: '已是队员' },
+              ];
+          }
+      } else if (role === 'teacher') {
+          return [
+              ...common,
+              { divider: true, label: '指导工作' },
+              { id: 'guideProjects', icon: '📖', label: '指导项目', shortLabel: '指导' },
+              { id: 'feedbackHandle', icon: '📌', label: '异常反馈', shortLabel: '反馈', badge: true },
+              { id: 'studentManage', icon: '👨‍🎓', label: '学生管理', shortLabel: '学生' },
+          ];
+      } else if (role === 'admin') {
+          return [
+              ...common,
+              { divider: true, label: '系统管理' },
+              { id: 'userManage', icon: '👤', label: '用户管理', shortLabel: '用户' },
+              { id: 'projectManage', icon: '📂', label: '项目管理', shortLabel: '项目' },
+              { id: 'creditRules', icon: '📏', label: '信用规则', shortLabel: '规则' },
+              { id: 'systemLogs', icon: '📜', label: '系统日志', shortLabel: '日志' },
+              { id: 'dataStats', icon: '📈', label: '数据统计', shortLabel: '统计' },
+          ];
+      }
+      return common;
+  }
+
+  // ================================================================
+  // 内容区路由
+  // ================================================================
+  function renderContent() {
+      const menu = state.currentMenu;
+      const role = state.currentRole;
+      const s = state.currentStudentStatus;
+      let html = '';
+
+      const pageMap = {
+          'dashboard': renderDashboard,
+          'showcase': renderProjectShowcase,
+          'notifications': renderNotifications,
+          'publishProject': renderPublishProject,
+          'myApplications': renderMyApplications,
+          'myProject': renderMyProject,
+          'projectApplications': renderProjectApplications,
+          'teamManage': renderTeamManage,
+          'myTasks': renderMyTasks,
+          'creditView': renderCreditView,
+          'guideProjects': renderGuideProjects,
+          'feedbackHandle': renderFeedbackHandle,
+          'studentManage': renderStudentManage,
+          'userManage': renderAdminUsers,
+          'projectManage': renderAdminProjects,
+          'creditRules': renderCreditRules,
+          'systemLogs': renderSystemLogs,
+          'dataStats': renderDataStats,
+      };
+
+      if (pageMap[menu]) {
+          html = pageMap[menu]();
+      } else {
+          html = renderDashboard();
+      }
+
+      contentArea.innerHTML = html;
+  }
+
+  // ================================================================
+  // 工作台
+  // ================================================================
+  function renderDashboard() {
+      const user = state.currentUser;
+      const role = state.currentRole;
+      const s = state.currentStudentStatus;
+      const uid = state.currentUserId;
+      let statsHtml = '';
+      let welcomeHtml = '';
+      let extraHtml = '';
+
+      if (role === 'student') {
+          const myProj = getMyProject(uid);
+          const projName = myProj ? myProj.name : '无';
+
+          if (s === 'idle') {
+              statsHtml = `
+                  <div class="stat-card"><div class="num">${user.credit}</div><div class="label">信誉积分</div><div class="trend up">${user.creditLevel}</div></div>
+                  <div class="stat-card"><div class="num">${PROJECTS.filter(p => p.status === '招募中').length}</div><div class="label">可申请项目</div><div class="trend up">点击项目展示查看</div></div>
+                  <div class="stat-card"><div class="num">0</div><div class="label">已投申请</div><div class="trend">查看我的申请</div></div>
+                  <div class="stat-card"><div class="num">-</div><div class="label">当前项目</div><div class="trend">未参与任何项目</div></div>
+              `;
+              welcomeHtml =
+              `欢迎回来，${user.name}！你当前处于<strong style="color:#166534;">空闲</strong>状态，可以发布项目或申请加入已有项目。`;
+              extraHtml = `
+                  <div class="rule-banner">
+                      <span class="rule-icon">📋</span>
+                      <strong>大创项目规则提醒：</strong><br>
+                      1. 你当前为空闲状态，可以选择 <strong>发布项目（成为队长）</strong> 或 <strong>申请加入项目（成为队员）</strong>，二者只能选其一。<br>
+                      2. 一旦成为队长或队员，你的身份将被锁定，直到项目结束或退出。<br>
+                      3. 同一时间只能参与一个项目，请谨慎选择。
+                  </div>
+                  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+                      <button class="btn btn-primary" onclick="state.currentMenu='publishProject';renderSidebar();renderBottomNav();renderContent();">发布项目（成为队长）</button>
+                      <button class="btn btn-success" onclick="state.currentMenu='showcase';renderSidebar();renderBottomNav();renderContent();">浏览项目（申请加入）</button>
+                  </div>
+              `;
+          } else if (s === 'captain') {
+              const memberCount = myProj ? getProjectMemberCount(myProj) : 0;
+              const pendingApps = APPLICATIONS.filter(a => a.projectId === myProj?.id && a.status === '待审核').length;
+              statsHtml = `
+                  <div class="stat-card"><div class="num">${user.credit}</div><div class="label">信誉积分</div><div class="trend up">${user.creditLevel}</div></div>
+                  <div class="stat-card"><div class="num">${memberCount}/${myProj?.total}</div><div class="label">团队人数</div><div class="trend up">招募中</div></div>
+                  <div class="stat-card"><div class="num">${pendingApps}</div><div class="label">待审核申请</div><div class="trend ${pendingApps > 0 ? 'down' : 'up'}">${pendingApps > 0 ? '需要处理' : '暂无'}</div></div>
+                  <div class="stat-card"><div class="num">${myProj?.tasks?.length || 0}</div><div class="label">任务总数</div><div class="trend">管理任务</div></div>
+              `;
+              welcomeHtml = `欢迎回来，${user.name}！你当前是项目「<strong>${projName}</strong>」的<strong style="color:#1d4ed8;">队长</strong>。`;
+              extraHtml = `
+                  <div class="rule-banner">
+                      <span class="rule-icon">🔒</span>
+                      <strong>身份锁定中：</strong>你当前是队长，<strong>不能</strong>以队员身份加入其他项目，也<strong>不能</strong>再发布新项目。如需变更身份，需先结束或退出当前项目。
+                  </div>
+              `;
+          } else if (s === 'member') {
+              statsHtml = `
+                  <div class="stat-card"><div class="num">${user.credit}</div><div class="label">信誉积分</div><div class="trend up">${user.creditLevel}</div></div>
+                  <div class="stat-card"><div class="num">${myProj?.status || '-'}</div><div class="label">项目状态</div></div>
+                  <div class="stat-card"><div class="num">${myProj?.tasks?.length || 0}</div><div class="label">任务总数</div></div>
+                  <div class="stat-card"><div class="num">${getProjectMemberCount(myProj)}</div><div class="label">团队人数</div></div>
+              `;
+              welcomeHtml = `欢迎回来，${user.name}！你当前是项目「<strong>${projName}</strong>」的<strong style="color:#15803d;">队员</strong>。`;
+              extraHtml = `
+                  <div class="rule-banner">
+                      <span class="rule-icon">🔒</span>
+                      <strong>身份锁定中：</strong>你当前是队员，<strong>不能</strong>发布新项目，也<strong>不能</strong>申请加入其他项目。如需变更身份，需先退出当前项目。
+                  </div>
+              `;
+          }
+      } else if (role === 'teacher') {
+          const guideCount = PROJECTS.length;
+          statsHtml = `
+              <div class="stat-card"><div class="num">${guideCount}</div><div class="label">指导项目</div></div>
+              <div class="stat-card"><div class="num">3</div><div class="label">待处理异常</div><div class="trend down">需关注</div></div>
+              <div class="stat-card"><div class="num">12</div><div class="label">指导学生</div></div>
+              <div class="stat-card"><div class="num">${user.credit}</div><div class="label">信誉积分</div></div>
+          `;
+          welcomeHtml = `欢迎回来，${user.name}！`;
+      } else if (role === 'admin') {
+          statsHtml = `
+              <div class="stat-card"><div class="num">${Object.keys(USER_DB).length}</div><div class="label">总用户数</div></div>
+              <div class="stat-card"><div class="num">${PROJECTS.length}</div><div class="label">总项目数</div></div>
+              <div class="stat-card"><div class="num">${PROJECTS.filter(p=>p.status==='招募中').length}</div><div class="label">招募中</div></div>
+              <div class="stat-card"><div class="num">${APPLICATIONS.filter(a=>a.status==='待审核').length}</div><div class="label">待审核申请</div></div>
+          `;
+          welcomeHtml = `欢迎回来，${user.name}！`;
+      }
+
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">工作台</h2>
+                  <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">${welcomeHtml}</p>
+              </div>
+              <div class="stat-grid">${statsHtml}</div>
+              ${extraHtml}
+          </div>
+      `;
+  }
+
+  // ================================================================
+  // 项目展示
+  // ================================================================
+  function renderProjectShowcase() {
+      let filtered = [...PROJECTS];
+
+      if (state.showcaseSearch.trim()) {
+          const q = state.showcaseSearch.trim().toLowerCase();
+          filtered = filtered.filter(p =>
+              p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) ||
+              p.tags.some(t => t.toLowerCase().includes(q)) || p.leader.includes(q)
+          );
+      }
+      if (state.showcaseFilter === 'recruiting') filtered = filtered.filter(p => p.status === '招募中');
+      else if (state.showcaseFilter === 'ongoing') filtered = filtered.filter(p => p.status === '进行中');
+
+      const uid = state.currentUserId;
+      const s = state.currentStudentStatus;
+      const role = state.currentRole;
+
+      let cards = filtered.map(p => {
+          const memberCount = getProjectMemberCount(p);
+          const isFull = memberCount >= p.total;
+          const isMyProject = isStudentInProject(uid, p.id);
+          const isLeader = p.leaderId === uid;
+          const borderColor = p.status === '招募中' ? 'var(--primary)' : p.status === '进行中' ? 'var(--success)' :
+              'var(--gray-400)';
+
+          let statusBadge = `<span class="tag ${getStatusTag(p.status)}">${p.status}</span>`;
+          if (isMyProject && isLeader) statusBadge += ` <span class="tag tag-idle">我发布的</span>`;
+          else if (isMyProject) statusBadge += ` <span class="tag tag-success">我已加入</span>`;
+
+          return `
+              <div class="project-card" style="border-left-color:${borderColor};position:relative;" onclick="openProjectModal('${p.id}')">
+                  <div class="title">${p.name}</div>
+                  <div class="meta">
+                      <span>队长：${p.leader}</span>
+                      <span>团队：${memberCount}/${p.total}</span>
+                      <span>${p.createdAt}</span>
+                  </div>
+                  <div class="desc">${p.desc}</div>
+                  <div class="tags">${p.tags.map(t => `<span class="tag tag-primary">${t}</span>`).join('')}</div>
+                  <div class="footer">
+                      <div>${statusBadge}</div>
+                      <span style="font-size:11px;color:var(--gray-400);">信誉要求 ${p.creditRequired}+</span>
+                  </div>
+              </div>
+          `;
+      }).join('');
+
+      if (!cards) cards = '<div style="text-align:center;padding:40px;color:var(--gray-400);grid-column:1/-1;">没有找到匹配的项目</div>';
+
+      const total = PROJECTS.length;
+      const recruiting = PROJECTS.filter(p => p.status === '招募中').length;
+      const ongoing = PROJECTS.filter(p => p.status === '进行中').length;
+
+      let ruleHint = '';
+      if (role === 'student' && s !== 'idle') {
+          const reason = s === 'captain' ? '你当前是队长，不能加入其他项目' : '你当前已是队员，不能加入其他项目';
+          ruleHint = `<div class="rule-banner"><span class="rule-icon">🔒</span>${reason}。你可以浏览项目，但无法申请加入。</div>`;
+      }
+
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">项目展示</h2>
+                  <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">浏览所有项目，点击卡片查看完整详情</p>
+              </div>
+              ${ruleHint}
+              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center;">
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                      <span class="tag tag-primary">全部 ${total}</span>
+                      <span class="tag tag-primary">招募中 ${recruiting}</span>
+                      <span class="tag tag-success">进行中 ${ongoing}</span>
+                  </div>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-left:auto;">
+                      <button class="btn btn-sm ${state.showcaseFilter === 'all' ? 'btn-primary' : 'btn-outline'}" onclick="setShowcaseFilter('all')">全部</button>
+                      <button class="btn btn-sm ${state.showcaseFilter === 'recruiting' ? 'btn-primary' : 'btn-outline'}" onclick="setShowcaseFilter('recruiting')">招募中</button>
+                      <button class="btn btn-sm ${state.showcaseFilter === 'ongoing' ? 'btn-primary' : 'btn-outline'}" onclick="setShowcaseFilter('ongoing')">进行中</button>
+                  </div>
+              </div>
+              <div style="margin-bottom:14px;">
+                  <div style="display:flex;gap:8px;">
+                      <input type="text" id="showcaseSearchInput" placeholder="搜索项目..."
+                             style="flex:1;padding:8px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;"
+                             value="${state.showcaseSearch}"
+                             oninput="handleShowcaseSearch(this.value)">
+                      <button class="btn btn-outline btn-sm" onclick="document.getElementById('showcaseSearchInput').value='';handleShowcaseSearch('');">清空</button>
+                  </div>
+              </div>
+              <div class="project-grid">${cards}</div>
+          </div>
+      `;
+  }
+
+  window.setShowcaseFilter = function(f) { state.showcaseFilter = f;
+      renderContent(); };
+  window.handleShowcaseSearch = function(v) { state.showcaseSearch = v;
+      renderContent(); };
+
+  // ================================================================
+  // 模态框：项目详情
+  // ================================================================
+  window.openProjectModal = function(projectId) {
+      const p = getProjectById(projectId);
+      if (!p) return;
+
+      const uid = state.currentUserId;
+      const s = state.currentStudentStatus;
+      const role = state.currentRole;
+      const user = state.currentUser;
+      const memberCount = getProjectMemberCount(p);
+      const isFull = memberCount >= p.total;
+      const isMyProject = isStudentInProject(uid, p.id);
+      const isLeader = p.leaderId === uid;
+      const hasPendingApp = APPLICATIONS.some(a => a.studentId === uid && a.projectId === p.id && a.status ===
+      '待审核');
+
+      const statusColor = p.status === '招募中' ? 'var(--primary)' : p.status === '进行中' ? 'var(--success)' :
+          'var(--gray-500)';
+      const tasksHtml = p.tasks ? p.tasks.map(t => `<span class="tag tag-primary">${t}</span>`).join(' ') :
+          '<span class="text-muted">暂无</span>';
+
+      let actionButtons = '';
+      let lockMessage = '';
+
+      if (role !== 'student') {
+          actionButtons = '';
+          lockMessage =
+              `<div style="margin-top:12px;padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:12px;color:var(--gray-500);">教师和管理员仅可查看项目信息，无法申请加入。</div>`;
+      } else if (isLeader) {
+          actionButtons =
+              `<button class="btn btn-outline" onclick="closeProjectModal();state.currentMenu='myProject';renderSidebar();renderBottomNav();renderContent();">管理此项目</button>`;
+          lockMessage =
+              `<div style="margin-top:12px;padding:10px 14px;background:#dbeafe;border-radius:var(--radius-sm);font-size:12px;color:#1d4ed8;">你是这个项目的队长，无需申请加入。</div>`;
+      } else if (isMyProject) {
+          actionButtons =
+              `<button class="btn btn-outline" onclick="closeProjectModal();state.currentMenu='myProject';renderSidebar();renderBottomNav();renderContent();">查看项目</button>`;
+          lockMessage =
+              `<div style="margin-top:12px;padding:10px 14px;background:#dcfce7;border-radius:var(--radius-sm);font-size:12px;color:#15803d;">你已经是这个项目的队员。</div>`;
+      } else if (s === 'captain') {
+          const myProj = getMyProject(uid);
+          actionButtons = `<button class="btn btn-primary btn-disabled">无法申请</button>`;
+          lockMessage = `<div style="margin-top:12px;padding:12px 16px;background:#fee2e2;border-radius:var(--radius-sm);font-size:12px;color:#b91c1c;line-height:1.7;">
+              <strong>身份冲突：</strong>你当前是项目「${myProj?.name}」的队长。<br>
+              根据规则，一个学生同一时间只能参与一个项目，且队长不能同时作为队员加入其他项目。如需加入此项目，请先结束或退出当前项目。
+          </div>`;
+      } else if (s === 'member') {
+          const myProj = getMyProject(uid);
+          actionButtons = `<button class="btn btn-primary btn-disabled">无法申请</button>`;
+          lockMessage = `<div style="margin-top:12px;padding:12px 16px;background:#fee2e2;border-radius:var(--radius-sm);font-size:12px;color:#b91c1c;line-height:1.7;">
+              <strong>身份冲突：</strong>你当前是项目「${myProj?.name}」的队员。<br>
+              根据规则，一个学生同一时间只能参与一个项目。如需加入此项目，请先退出当前项目。
+          </div>`;
+      } else if (p.status !== '招募中') {
+          actionButtons = `<button class="btn btn-primary btn-disabled">暂不招募</button>`;
+          lockMessage =
+              `<div style="margin-top:12px;padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:12px;color:var(--gray-500);">该项目当前不在招募中。</div>`;
+      } else if (isFull) {
+          actionButtons = `<button class="btn btn-primary btn-disabled">已满员</button>`;
+          lockMessage =
+              `<div style="margin-top:12px;padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:12px;color:var(--gray-500);">该项目团队已满员。</div>`;
+      } else if (user.credit < p.creditRequired) {
+          actionButtons = `<button class="btn btn-primary btn-disabled">信誉不足</button>`;
+          lockMessage =
+              `<div style="margin-top:12px;padding:10px 14px;background:#fef3c7;border-radius:var(--radius-sm);font-size:12px;color:#92400e;">该项目要求信誉积分 ≥ ${p.creditRequired}，你当前为 ${user.credit}，不满足要求。</div>`;
+      } else if (hasPendingApp) {
+          actionButtons = `<button class="btn btn-primary btn-disabled">已申请，待审核</button>`;
+          lockMessage =
+              `<div style="margin-top:12px;padding:10px 14px;background:#dbeafe;border-radius:var(--radius-sm);font-size:12px;color:#1d4ed8;">你已向此项目发送了加入申请，请等待队长审核。</div>`;
+      } else {
+          actionButtons =
+              `<button class="btn btn-primary" onclick="applyToProject('${p.id}')">申请加入（将成为队员）</button>`;
+          lockMessage =
+              `<div style="margin-top:12px;font-size:12px;color:var(--gray-400);">点击申请后，你将从"空闲"变为"队员"状态（需队长审核通过后生效），届时将无法再发布项目或加入其他项目。</div>`;
+      }
+
+      modalContent.innerHTML = `
+          <h2>${p.name}</h2>
+          <div class="subtitle">
+              队长：${p.leader} · 创建于 ${p.createdAt}
+              <span style="margin-left:12px;display:inline-block;padding:2px 10px;border-radius:20px;background:${statusColor}20;color:${statusColor};font-weight:500;font-size:12px;">${p.status}</span>
+          </div>
+          <div class="detail-row"><div class="label">项目简介</div><div class="value">${p.desc}</div></div>
+          <div class="detail-row"><div class="label">技能需求</div><div class="value">${p.need}</div></div>
+          <div class="detail-row"><div class="label">技能标签</div><div class="value">${p.tags.map(t => `<span class="tag tag-primary">${t}</span>`).join(' ')}</div></div>
+          <div class="detail-row"><div class="label">团队规模</div><div class="value">${memberCount} / ${p.total} 人 ${isFull ? '<span class="tag tag-danger">已满</span>' : '<span class="tag tag-success">可加入</span>'}</div></div>
+          <div class="detail-row"><div class="label">信誉要求</div><div class="value">最低信誉积分 ≥ ${p.creditRequired}</div></div>
+          <div class="detail-row"><div class="label">核心任务</div><div class="value">${tasksHtml}</div></div>
+          <div class="modal-actions">
+              ${actionButtons}
+              <button class="btn btn-outline" onclick="closeProjectModal()">关闭</button>
+          </div>
+          ${lockMessage}
+      `;
+
+      projectModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+  };
+
+  window.applyToProject = function(projectId) {
+      const p = getProjectById(projectId);
+      if (!p) return;
+      const uid = state.currentUserId;
+      const user = state.currentUser;
+
+      if (user.status !== 'idle') {
+          showToast('你当前不是空闲状态，无法申请加入', 'error');
+          return;
+      }
+      if (getProjectMemberCount(p) >= p.total) {
+          showToast('该项目已满员', 'error');
+          return;
+      }
+      if (user.credit < p.creditRequired) {
+          showToast('你的信誉积分不满足要求', 'error');
+          return;
+      }
+      if (APPLICATIONS.some(a => a.studentId === uid && a.projectId === projectId && a.status === '待审核')) {
+          showToast('你已经申请过了，请等待审核', 'warning');
+          return;
+      }
+
+      const app = {
+          id: 'APP' + Date.now(),
+          projectId: projectId,
+          studentId: uid,
+          studentName: user.name,
+          message: '我希望能加入这个项目',
+          status: '待审核',
+          time: '刚刚'
+      };
+      APPLICATIONS.push(app);
+
+      showToast(`已向「${p.name}」发送加入申请，请等待队长审核`, 'success');
+      closeProjectModal();
+
+      const leaderUser = USER_DB[p.leaderId];
+      if (leaderUser) {
+          leaderUser.notifications.unshift({
+              icon: '📩',
+              title: `${user.name} 申请加入你的项目「${p.name}」`,
+              time: '刚刚',
+              type: '申请'
+          });
+      }
+  };
+
+  window.closeProjectModal = function() {
+      projectModal.classList.remove('active');
+      document.body.style.overflow = '';
+  };
+
+  projectModal.addEventListener('click', function(e) { if (e.target === this) closeProjectModal(); });
+  closeModalBtn.addEventListener('click', closeProjectModal);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeProjectModal(); });
+
+  // ================================================================
+  // 发布项目
+  // ================================================================
+  function renderPublishProject() {
+      const s = state.currentStudentStatus;
+      if (s !== 'idle') {
+          const reason = s === 'captain' ? '你当前已是队长，不能再发布新项目' : '你当前已是队员，不能发布项目';
+          return `
+              <div class="page-section active">
+                  <div style="margin-bottom:16px;">
+                      <h2 style="font-size:18px;font-weight:600;">发布项目</h2>
+                  </div>
+                  <div class="lock-card">
+                      <div class="lock-icon">🔒</div>
+                      <h3>功能已锁定</h3>
+                      <p>${reason}。根据大创规则，一个学生同一时间只能参与一个项目。</p>
+                      <div class="unlock-hint">如需发布项目，请先结束或退出当前参与的项目</div>
+                  </div>
+              </div>
+          `;
+      }
+
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">发布项目</h2>
+                  <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">发布后你将成为该项目的<strong style="color:#1d4ed8;">队长</strong>，届时将无法再加入其他项目</p>
+              </div>
+              <div class="rule-banner">
+                  <span class="rule-icon">⚠️</span>
+                  <strong>发布即锁定：</strong>发布项目后，你的身份将从"空闲"变为"队长"，无法再以队员身份加入其他项目，也无法再发布新项目。请确认你已经准备好。
+              </div>
+              <div class="card mt-3">
+                  <div class="form-row">
+                      <div class="form-group"><label>项目名称 *</label><input type="text" id="pubName" placeholder="请输入项目名称"></div>
+                      <div class="form-group"><label>团队总人数 *</label>
+                          <select id="pubTotal">
+                              <option value="2">2 人</option>
+                              <option value="3">3 人</option>
+                              <option value="4" selected>4 人</option>
+                              <option value="5">5 人</option>
+                              <option value="6">6 人</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-row">
+                      <div class="form-group"><label>技能需求 *</label><input type="text" id="pubNeed" placeholder="如：前端 / 后端 / AI"></div>
+                      <div class="form-group"><label>信誉要求 *</label>
+                          <select id="pubCredit">
+                              <option value="60">60 分</option>
+                              <option value="70" selected>70 分</option>
+                              <option value="80">80 分</option>
+                              <option value="90">90 分</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-row full">
+                      <div class="form-group"><label>技能标签（逗号分隔）</label><input type="text" id="pubTags" placeholder="如：Python, 深度学习, Vue"></div>
+                  </div>
+                  <div class="form-row full">
+                      <div class="form-group"><label>项目简介 *</label><textarea id="pubDesc" placeholder="请详细描述项目内容、目标和预期成果"></textarea></div>
+                  </div>
+                  <div class="form-row full">
+                      <div class="form-group"><label>核心任务（每行一个）</label><textarea id="pubTasks" placeholder="数据采集&#10;模型训练&#10;系统开发" style="min-height:100px;"></textarea></div>
+                  </div>
+                  <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                      <button class="btn btn-primary" onclick="handlePublishProject()">确认发布（成为队长）</button>
+                      <button class="btn btn-outline" onclick="state.currentMenu='dashboard';renderSidebar();renderBottomNav();renderContent();">取消</button>
+                  </div>
+              </div>
+          </div>
+      `;
+  }
+
+  window.handlePublishProject = function() {
+      const name = document.getElementById('pubName')?.value.trim();
+      const total = parseInt(document.getElementById('pubTotal')?.value) || 4;
+      const need = document.getElementById('pubNeed')?.value.trim();
+      const credit = parseInt(document.getElementById('pubCredit')?.value) || 70;
+      const tags = document.getElementById('pubTags')?.value.trim();
+      const desc = document.getElementById('pubDesc')?.value.trim();
+      const tasks = document.getElementById('pubTasks')?.value.trim();
+
+      if (!name) { showToast('请输入项目名称', 'error'); return; }
+      if (!need) { showToast('请输入技能需求', 'error'); return; }
+      if (!desc) { showToast('请输入项目简介', 'error'); return; }
+
+      if (state.currentStudentStatus !== 'idle') {
+          showToast('你的状态已变更，无法发布项目', 'error');
+          renderContent();
+          return;
+      }
+
+      const uid = state.currentUserId;
+      const user = state.currentUser;
+      const newId = 'P' + Date.now().toString().slice(-6);
+
+      const newProject = {
+          id: newId,
+          name,
+          desc,
+          leaderId: uid,
+          leader: user.name,
+          need,
+          members: [],
+          total,
+          status: '招募中',
+          tags: tags ? tags.split(/[,，]/).map(t => t.trim()).filter(Boolean) : [],
+          tasks: tasks ? tasks.split('\n').map(t => t.trim()).filter(Boolean) : [],
+          creditRequired: credit,
+          createdAt: new Date().toISOString().slice(0, 10)
+      };
+
+      PROJECTS.push(newProject);
+
+      user.status = 'captain';
+      user.projectId = newId;
+      state.currentStudentStatus = 'captain';
+
+      updateTopbar();
+      renderSidebar();
+      renderBottomNav();
+      renderContent();
+
+      showToast(`项目「${name}」发布成功！你现在是队长了`, 'success');
+  };
+
+  // ================================================================
+  // 我的项目
+  // ================================================================
+  function renderMyProject() {
+      const uid = state.currentUserId;
+      const s = state.currentStudentStatus;
+      const user = state.currentUser;
+      const proj = getMyProject(uid);
+
+      if (!proj) {
+          return `
+              <div class="page-section active">
+                  <h2 style="font-size:18px;font-weight:600;margin-bottom:14px;">我的项目</h2>
+                  <div class="lock-card">
+                      <div class="lock-icon">📭</div>
+                      <h3>暂无参与的项目</h3>
+                      <p>你当前处于空闲状态，可以去项目展示页浏览并申请加入，或者自己发布一个项目。</p>
+                  </div>
+              </div>
+          `;
+      }
+
+      const memberCount = getProjectMemberCount(proj);
+      const isLeader = s === 'captain';
+
+      let memberListHtml = '';
+      if (isLeader && proj.members.length > 0) {
+          memberListHtml = `
+              <div class="card mt-3">
+                  <div class="card-header"><h3>队员列表</h3><span class="badge">${proj.members.length} 人</span></div>
+                  <div class="table-wrap">
+                      <table><thead><tr><th>姓名</th><th>学号</th><th>信誉</th><th>操作</th></tr></thead><tbody>
+                      ${proj.members.map(mid => {
+                          const mu = USER_DB[mid];
+                          return `<tr>
+                              <td>${mu?.name || mid}</td>
+                              <td>${mid}</td>
+                              <td>${mu?.credit || '-'}</td>
+                              <td><button class="btn btn-danger btn-xs" onclick="removeMember('${mid}')">移除</button></td>
+                          </tr>`;
+                      }).join('')}
+                      </tbody></table>
+                  </div>
+              </div>
+          `;
+      } else if (!isLeader && proj.members) {
+          memberListHtml = `
+              <div class="card mt-3">
+                  <div class="card-header"><h3>团队成员</h3><span class="badge">${memberCount} 人</span></div>
+                  <div class="table-wrap">
+                      <table><thead><tr><th>角色</th><th>姓名</th><th>学号</th></tr></thead><tbody>
+                      <tr><td><span class="tag tag-primary">队长</span></td><td>${proj.leader}</td><td>${proj.leaderId}</td></tr>
+                      ${proj.members.map(mid => {
+                          const mu = USER_DB[mid];
+                          return `<tr><td><span class="tag tag-success">队员</span></td><td>${mu?.name || mid}</td><td>${mid}</td></tr>`;
+                      }).join('')}
+                      </tbody></table>
+                  </div>
+              </div>
+          `;
+      }
+
+      let exitBtn = '';
+      if (s === 'member') {
+          exitBtn = `
+              <div class="mt-3">
+                  <button class="btn btn-danger" onclick="handleExitProject()">退出当前项目</button>
+                  <span style="font-size:11px;color:var(--gray-400);margin-left:10px;">退出后你将恢复为"空闲"状态</span>
+              </div>
+          `;
+      } else if (s === 'captain') {
+          exitBtn = `
+              <div class="mt-3">
+                  <button class="btn btn-danger" onclick="handleDisbandProject()">解散项目</button>
+                  <span style="font-size:11px;color:var(--gray-400);margin-left:10px;">所有成员将释放为空闲状态</span>
+              </div>
+          `;
+      }
+
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">我的项目</h2>
+                  <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">
+                      你当前的身份是<strong style="color:${isLeader ? '#1d4ed8' : '#15803d'};">${isLeader ? '队长' : '队员'}</strong>
+                  </p>
+              </div>
+              <div class="card">
+                  <div class="card-header">
+                      <h3>${proj.name}</h3>
+                      <span class="tag ${getStatusTag(proj.status)}">${proj.status}</span>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;">
+                      <div><span class="text-muted">队长：</span>${proj.leader}</div>
+                      <div><span class="text-muted">团队：</span>${memberCount} / ${proj.total} 人</div>
+                      <div><span class="text-muted">需求：</span>${proj.need}</div>
+                      <div><span class="text-muted">创建：</span>${proj.createdAt}</div>
+                  </div>
+                  <div class="mt-2"><span class="text-muted">简介：</span>${proj.desc}</div>
+                  <div class="mt-2"><span class="text-muted">标签：</span>${proj.tags.map(t => `<span class="tag tag-primary">${t}</span>`).join(' ')}</div>
+                  <div class="mt-2"><span class="text-muted">任务：</span>${proj.tasks.map(t => `<span class="tag">${t}</span>`).join(' ')}</div>
+              </div>
+              ${memberListHtml}
+              ${exitBtn}
+          </div>
+      `;
+  }
+
+  window.removeMember = function(memberId) {
+      const uid = state.currentUserId;
+      const proj = getMyProject(uid);
+      if (!proj) return;
+
+      proj.members = proj.members.filter(m => m !== memberId);
+      const memberUser = USER_DB[memberId];
+      if (memberUser) {
+          memberUser.status = 'idle';
+          memberUser.projectId = null;
+          memberUser.notifications.unshift({
+              icon: '🚪',
+              title: `你已被移出项目「${proj.name}」`,
+              time: '刚刚',
+              type: '通知'
+          });
+      }
+
+      showToast(`已将 ${memberUser?.name || memberId} 移出项目`, 'success');
+      renderContent();
+  };
+
+  window.handleExitProject = function() {
+      const uid = state.currentUserId;
+      const user = state.currentUser;
+      const proj = getMyProject(uid);
+      if (!proj) return;
+
+      proj.members = proj.members.filter(m => m !== uid);
+      user.status = 'idle';
+      user.projectId = null;
+      state.currentStudentStatus = 'idle';
+
+      const leaderUser = USER_DB[proj.leaderId];
+      if (leaderUser) {
+          leaderUser.notifications.unshift({
+              icon: '🚪',
+              title: `${user.name} 已退出项目「${proj.name}」`,
+              time: '刚刚',
+              type: '通知'
+          });
+      }
+
+      updateTopbar();
+      renderSidebar();
+      renderBottomNav();
+      renderContent();
+      showToast(`你已退出项目「${proj.name}」，现在恢复为空闲状态`, 'success');
+  };
+
+  window.handleDisbandProject = function() {
+      const uid = state.currentUserId;
+      const user = state.currentUser;
+      const proj = getMyProject(uid);
+      if (!proj) return;
+
+      proj.members.forEach(mid => {
+          const mu = USER_DB[mid];
+          if (mu) {
+              mu.status = 'idle';
+              mu.projectId = null;
+              mu.notifications.unshift({
+                  icon: '💥',
+                  title: `项目「${proj.name}」已被队长解散`,
+                  time: '刚刚',
+                  type: '通知'
+              });
+          }
+      });
+
+      const idx = PROJECTS.findIndex(p => p.id === proj.id);
+      if (idx !== -1) PROJECTS.splice(idx, 1);
+      APPLICATIONS = APPLICATIONS.filter(a => a.projectId !== proj.id);
+
+      user.status = 'idle';
+      user.projectId = null;
+      state.currentStudentStatus = 'idle';
+
+      updateTopbar();
+      renderSidebar();
+      renderBottomNav();
+      renderContent();
+      showToast(`项目「${proj.name}」已解散，你已恢复为空闲状态`, 'success');
+  };
+
+  // ================================================================
+  // 申请审核
+  // ================================================================
+  function renderProjectApplications() {
+      const uid = state.currentUserId;
+      const proj = getMyProject(uid);
+      if (!proj) return `<div class="page-section active"><h2 style="font-size:18px;font-weight:600;">申请审核</h2><p class="text-muted mt-2">暂无项目</p></div>`;
+
+      const apps = APPLICATIONS.filter(a => a.projectId === proj.id && a.status === '待审核');
+      const memberCount = getProjectMemberCount(proj);
+
+      let listHtml = '';
+      if (apps.length === 0) {
+          listHtml = '<div style="text-align:center;padding:40px;color:var(--gray-400);">暂无待审核的申请</div>';
+      } else {
+          listHtml = apps.map(a => {
+              const applicant = USER_DB[a.studentId];
+              const creditOk = applicant && applicant.credit >= proj.creditRequired;
+              return `
+                  <div class="card mb-3" style="border-left:4px solid ${creditOk ? 'var(--success)' : 'var(--warning)'};">
+                      <div class="flex justify-between items-center flex-wrap gap-2">
+                          <div>
+                              <span class="font-semibold">${a.studentName}</span>
+                              <span class="text-muted text-sm" style="margin-left:6px;">${a.studentId}</span>
+                              <span class="text-muted text-xs" style="margin-left:6px;">${a.time}</span>
+                          </div>
+                          <div class="flex gap-2">
+                              ${memberCount < proj.total ? `<button class="btn btn-success btn-sm" onclick="approveApplication('${a.id}')">通过</button>` : '<span class="tag tag-danger">已满员</span>'}
+                              <button class="btn btn-danger btn-sm" onclick="rejectApplication('${a.id}')">拒绝</button>
+                          </div>
+                      </div>
+                      <div class="mt-2 text-sm text-muted">申请理由：${a.message}</div>
+                      <div class="mt-1 text-xs">
+                          信誉积分：<span style="color:${creditOk ? 'var(--success)' : 'var(--danger)'}; font-weight:600;">${applicant?.credit || '?'} / 要求 ${proj.creditRequired}</span>
+                          ${!creditOk ? ' <span class="tag tag-danger">不满足</span>' : ' <span class="tag tag-success">满足</span>'}
+                          ${applicant?.status !== 'idle' ? ` <span class="tag tag-danger">该学生已不是空闲状态（${getStudentStatusLabel(applicant.status)}）</span>` : ''}
+                      </div>
+                  </div>
+              `;
+          }).join('');
+      }
+
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">申请审核</h2>
+                  <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">项目「${proj.name}」的加入申请 · 当前 ${memberCount}/${proj.total} 人</p>
+              </div>
+              ${listHtml}
+          </div>
+      `;
+  }
+
+  window.approveApplication = function(appId) {
+      const app = APPLICATIONS.find(a => a.id === appId);
+      if (!app) return;
+      const proj = getProjectById(app.projectId);
+      if (!proj) return;
+      const applicant = USER_DB[app.studentId];
+
+      if (!applicant || applicant.status !== 'idle') {
+          app.status = '已拒绝';
+          showToast(`该学生当前不是空闲状态（${applicant ? getStudentStatusLabel(applicant.status) : '不存在'}），已自动拒绝`,
+              'warning');
+          renderContent();
+          return;
+      }
+      if (getProjectMemberCount(proj) >= proj.total) {
+          showToast('项目已满员', 'error');
+          return;
+      }
+
+      app.status = '已通过';
+      proj.members.push(app.studentId);
+      applicant.status = 'member';
+      applicant.projectId = proj.id;
+      applicant.notifications.unshift({
+          icon: '🎉',
+          title: `你已成功加入项目「${proj.name}」`,
+          time: '刚刚',
+          type: '入队'
+      });
+
+      showToast(`已通过 ${app.studentName} 的申请`, 'success');
+      renderContent();
+  };
+
+  window.rejectApplication = function(appId) {
+      const app = APPLICATIONS.find(a => a.id === appId);
+      if (!app) return;
+
+      app.status = '已拒绝';
+      const applicant = USER_DB[app.studentId];
+      if (applicant) {
+          applicant.notifications.unshift({
+              icon: '❌',
+              title: `你加入项目「${getProjectById(app.projectId)?.name}」的申请被拒绝`,
+              time: '刚刚',
+              type: '拒绝'
+          });
+      }
+
+      showToast(`已拒绝 ${app.studentName} 的申请`, 'info');
+      renderContent();
+  };
+
+  // ================================================================
+  // 我的申请
+  // ================================================================
+  function renderMyApplications() {
+      const uid = state.currentUserId;
+      const myApps = APPLICATIONS.filter(a => a.studentId === uid);
+
+      let listHtml = '';
+      if (myApps.length === 0) {
+          listHtml = '<div style="text-align:center;padding:40px;color:var(--gray-400);">你还没有投出任何申请</div>';
+      } else {
+          listHtml = myApps.map(a => {
+              const proj = getProjectById(a.projectId);
+              return `
+                  <div class="card mb-3">
+                      <div class="flex justify-between items-center">
+                          <div>
+                              <span class="font-semibold">${proj?.name || a.projectId}</span>
+                              <span class="text-muted text-xs" style="margin-left:6px;">${a.time}</span>
+                          </div>
+                          <span class="tag ${a.status === '待审核' ? 'tag-warning' : a.status === '已通过' ? 'tag-success' : 'tag-danger'}">${a.status}</span>
+                      </div>
+                      <div class="mt-1 text-sm text-muted">申请理由：${a.message}</div>
+                  </div>
+              `;
+          }).join('');
+      }
+
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">我的申请</h2>
+                  <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">查看你投出的加入申请及审核状态</p>
+              </div>
+              ${listHtml}
+          </div>
+      `;
+  }
+
+  // ================================================================
+  // 团队管理
+  // ================================================================
+  function renderTeamManage() {
+      const uid = state.currentUserId;
+      const proj = getMyProject(uid);
+      if (!proj) return `<div class="page-section active"><h2 style="font-size:18px;font-weight:600;">团队管理</h2><p class="text-muted mt-2">暂无项目</p></div>`;
+
+      const memberCount = getProjectMemberCount(proj);
+      let rows =
+          `<tr><td>${proj.leader}</td><td>${proj.leaderId}</td><td><span class="tag tag-primary">队长</span></td><td>${USER_DB[proj.leaderId]?.credit || '-'}</td><td>-</td></tr>`;
+      rows += proj.members.map(mid => {
+          const mu = USER_DB[mid];
+          return `<tr><td>${mu?.name || mid}</td><td>${mid}</td><td><span class="tag tag-success">队员</span></td><td>${mu?.credit || '-'}</td>
+              <td><button class="btn btn-danger btn-xs" onclick="removeMember('${mid}')">移除</button></td></tr>`;
+      }).join('');
+
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">团队管理</h2>
+                  <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">项目「${proj.name}」· ${memberCount}/${proj.total} 人</p>
+              </div>
+              <div class="card">
+                  <div class="table-wrap">
+                      <table><thead><tr><th>姓名</th><th>学号</th><th>角色</th><th>信誉</th><th>操作</th></tr></thead>
+                      <tbody>${rows}</tbody></table>
+                  </div>
+              </div>
+          </div>
+      `;
+  }
+
+  // ================================================================
+  // 任务管理
+  // ================================================================
+  function renderMyTasks() {
+      const proj = getMyProject(state.currentUserId);
+      if (!proj) return `<div class="page-section active"><h2 style="font-size:18px;font-weight:600;">任务管理</h2><p class="text-muted mt-2">暂无项目</p></div>`;
+
+      let rows = proj.tasks.map((t, i) => {
+          const statuses = ['未开始', '进行中', '已完成'];
+          const s = statuses[i % 3];
+          return `<tr><td>${t}</td><td><span class="tag ${getStatusTag(s)}">${s}</span></td><td>-</td></tr>`;
+      }).join('');
+
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">任务管理</h2>
+                  <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">项目「${proj.name}」的任务列表</p>
+              </div>
+              <div class="card"><div class="table-wrap">
+                  <table><thead><tr><th>任务名称</th><th>状态</th><th>截止日期</th></tr></thead>
+                  <tbody>${rows}</tbody></table>
+              </div></div>
+          </div>
+      `;
+  }
+
+  // ================================================================
+  // 信誉查看
+  // ================================================================
+  function renderCreditView() {
+      const user = state.currentUser;
+      const color = getCreditColor(user.credit);
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">我的信誉</h2>
+              </div>
+              <div class="credit-score mb-3">
+                  <div class="score-circle ${color}">${user.credit}</div>
+                  <div class="score-info">
+                      <div class="label">信誉积分</div>
+                      <div class="level">${user.creditLevel}</div>
+                  </div>
+              </div>
+              <div class="card">
+                  <div class="card-header"><h3>信誉规则</h3></div>
+                  <div style="font-size:13px;color:var(--gray-600);line-height:2;">
+                      <div>· 正常参与项目并完成：+5 分</div>
+                      <div>· 被队长移除（非正常退出）：-10 分</div>
+                      <div>· 无故缺席例会：-3 分/次</div>
+                      <div>· 项目按时完成（队长）：+10 分</div>
+                      <div>· 信誉积分低于 60 分将无法申请加入项目</div>
+                  </div>
+              </div>
+          </div>
+      `;
+  }
+
+  // ================================================================
+  // 消息通知
+  // ================================================================
+  function renderNotifications() {
+      const user = state.currentUser;
+      const notifs = user.notifications || [];
+      let listHtml = '';
+      if (notifs.length === 0) {
+          listHtml = '<div style="text-align:center;padding:40px;color:var(--gray-400);">暂无消息</div>';
+      } else {
+          listHtml = notifs.map(n => `
+              <div class="notification-item">
+                  <span class="nt-icon">${n.icon}</span>
+                  <div class="nt-content">
+                      <div class="nt-title">${n.title}</div>
+                      <div class="nt-time">${n.time}</div>
+                  </div>
+                  <span class="nt-badge">${n.type}</span>
+              </div>
+          `).join('');
+      }
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;">
+                  <h2 style="font-size:18px;font-weight:600;">消息通知</h2>
+              </div>
+              <div class="notification-list">${listHtml}</div>
+          </div>
+      `;
+  }
+
+  // ================================================================
+  // 教师页面
+  // ================================================================
+  function renderGuideProjects() {
+      let rows = PROJECTS.map(p => `
+          <tr><td>${p.name}</td><td>${p.leader}</td><td>${getProjectMemberCount(p)}/${p.total}</td>
+          <td><span class="tag ${getStatusTag(p.status)}">${p.status}</span></td></tr>
+      `).join('');
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;"><h2 style="font-size:18px;font-weight:600;">指导项目</h2></div>
+              <div class="card"><div class="table-wrap">
+                  <table><thead><tr><th>项目名称</th><th>队长</th><th>人数</th><th>状态</th></tr></thead>
+                  <tbody>${rows}</tbody></table>
+              </div></div>
+          </div>
+      `;
+  }
+
+  function renderFeedbackHandle() {
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;"><h2 style="font-size:18px;font-weight:600;">异常反馈</h2></div>
+              <div class="card mb-3" style="border-left:4px solid var(--warning);">
+                  <div class="flex justify-between items-center flex-wrap gap-2">
+                      <div><span class="font-semibold">AI医疗影像辅助诊断 - 沟通异常</span></div>
+                      <span class="tag tag-warning">待处理</span>
+                  </div>
+                  <div class="mt-2 text-sm text-muted">队员之间对数据标注标准存在分歧，需要统一。</div>
+                  <div class="mt-2 flex gap-2"><button class="btn btn-primary btn-sm">处理</button><button class="btn btn-outline btn-sm">转交</button></div>
+              </div>
+              <div class="card mb-3" style="border-left:4px solid var(--primary);">
+                  <div class="flex justify-between items-center flex-wrap gap-2">
+                      <div><span class="font-semibold">交通流预测 - 管理问题</span></div>
+                      <span class="tag tag-primary">处理中</span>
+                  </div>
+                  <div class="mt-2 text-sm text-muted">队长分配任务不明确，导致进度滞后。</div>
+              </div>
+          </div>
+      `;
+  }
+
+  function renderStudentManage() {
+      const students = Object.entries(USER_DB).filter(([_, u]) => u.role === 'student');
+      let rows = students.map(([id, u]) => `
+          <tr><td>${u.name}</td><td>${id}</td>
+          <td><span class="tag ${u.status === 'idle' ? 'tag-idle' : u.status === 'captain' ? 'tag-primary' : 'tag-success'}">${getStudentStatusLabel(u.status)}</span></td>
+          <td>${u.credit}</td>
+          <td>${u.projectId ? getProjectById(u.projectId)?.name || '-' : '-'}</td></tr>
+      `).join('');
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;"><h2 style="font-size:18px;font-weight:600;">学生管理</h2>
+              <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">查看所有学生的当前状态和项目参与情况</p></div>
+              <div class="card"><div class="table-wrap">
+                  <table><thead><tr><th>姓名</th><th>学号</th><th>当前状态</th><th>信誉</th><th>参与项目</th></tr></thead>
+                  <tbody>${rows}</tbody></table>
+              </div></div>
+          </div>
+      `;
+  }
+
+  // ================================================================
+  // 管理员页面
+  // ================================================================
+  function renderAdminUsers() {
+      let rows = Object.entries(USER_DB).map(([id, u]) => `
+          <tr><td>${u.name}</td><td>${id}</td>
+          <td><span class="tag ${u.role === 'student' ? (u.status === 'idle' ? 'tag-idle' : u.status === 'captain' ? 'tag-primary' : 'tag-success') : u.role === 'teacher' ? 'tag-warning' : 'tag-danger'}">${u.role === 'student' ? getStudentStatusLabel(u.status) : u.role === 'teacher' ? '教师' : '管理员'}</span></td>
+          <td>${u.credit}</td></tr>
+      `).join('');
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;"><h2 style="font-size:18px;font-weight:600;">用户管理</h2></div>
+              <div class="card"><div class="table-wrap">
+                  <table><thead><tr><th>姓名</th><th>ID</th><th>角色/状态</th><th>信誉</th></tr></thead>
+                  <tbody>${rows}</tbody></table>
+              </div></div>
+          </div>
+      `;
+  }
+
+  function renderAdminProjects() {
+      let rows = PROJECTS.map(p => `
+          <tr><td>${p.name}</td><td>${p.leader}</td><td>${getProjectMemberCount(p)}/${p.total}</td>
+          <td><span class="tag ${getStatusTag(p.status)}">${p.status}</span></td>
+          <td>${p.createdAt}</td></tr>
+      `).join('');
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;"><h2 style="font-size:18px;font-weight:600;">项目管理</h2></div>
+              <div class="card"><div class="table-wrap">
+                  <table><thead><tr><th>项目</th><th>队长</th><th>人数</th><th>状态</th><th>创建时间</th></tr></thead>
+                  <tbody>${rows}</tbody></table>
+              </div></div>
+          </div>
+      `;
+  }
+
+  function renderCreditRules() {
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;"><h2 style="font-size:18px;font-weight:600;">信用规则</h2></div>
+              <div class="card">
+                  <div class="card-header"><h3>积分规则配置</h3></div>
+                  <div style="font-size:13px;color:var(--gray-600);line-height:2.2;">
+                      <div>· 正常参与并完成项目：+5 分</div>
+                      <div>· 被移除（非正常退出）：-10 分</div>
+                      <div>· 无故缺席：-3 分/次</div>
+                      <div>· 项目按时完成（队长加分）：+10 分</div>
+                      <div>· 信誉低于 60 分：禁止申请加入项目</div>
+                      <div>· 信誉低于 40 分：禁止发布项目</div>
+                  </div>
+              </div>
+          </div>
+      `;
+  }
+
+  function renderSystemLogs() {
+      const logs = [
+          { time: '10:32:15', user: '赵同学', action: '浏览了项目展示' },
+          { time: '10:28:03', user: '张同学', action: '审核通过了钱同学的申请' },
+          { time: '10:15:44', user: '系统', action: '自动检测到3个异常反馈待处理' },
+          { time: '09:50:12', user: '李同学', action: '退出了项目"校园二手交易"' },
+          { time: '09:30:00', user: '系统', action: '每日信誉积分结算完成' },
+      ];
+      let rows = logs.map(l => `<tr><td>${l.time}</td><td>${l.user}</td><td>${l.action}</td></tr>`).join('');
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;"><h2 style="font-size:18px;font-weight:600;">系统日志</h2></div>
+              <div class="card"><div class="table-wrap">
+                  <table><thead><tr><th>时间</th><th>用户</th><th>操作</th></tr></thead>
+                  <tbody>${rows}</tbody></table>
+              </div></div>
+          </div>
+      `;
+  }
+
+  function renderDataStats() {
+      const students = Object.values(USER_DB).filter(u => u.role === 'student');
+      const idle = students.filter(u => u.status === 'idle').length;
+      const captains = students.filter(u => u.status === 'captain').length;
+      const members = students.filter(u => u.status === 'member').length;
+      return `
+          <div class="page-section active">
+              <div style="margin-bottom:16px;"><h2 style="font-size:18px;font-weight:600;">数据统计</h2></div>
+              <div class="stat-grid">
+                  <div class="stat-card"><div class="num">${students.length}</div><div class="label">学生总数</div></div>
+                  <div class="stat-card"><div class="num">${idle}</div><div class="label">空闲学生</div><div class="trend up">可招募</div></div>
+                  <div class="stat-card"><div class="num">${captains}</div><div class="label">队长</div></div>
+                  <div class="stat-card"><div class="num">${members}</div><div class="label">队员</div></div>
+                  <div class="stat-card"><div class="num">${PROJECTS.length}</div><div class="label">项目总数</div></div>
+                  <div class="stat-card"><div class="num">${PROJECTS.filter(p=>p.status==='招募中').length}</div><div class="label">招募中项目</div></div>
+                  <div class="stat-card"><div class="num">${APPLICATIONS.filter(a=>a.status==='待审核').length}</div><div class="label">待审核申请</div></div>
+                  <div class="stat-card"><div class="num">${APPLICATIONS.length}</div><div class="label">申请总数</div></div>
+              </div>
+              <div class="card mt-3">
+                  <div class="card-header"><h3>学生状态分布</h3></div>
+                  <div style="display:flex;height:20px;border-radius:6px;overflow:hidden;margin-top:10px;">
+                      <div style="width:${idle/students.length*100}%;background:#22c55e;" title="空闲 ${idle}人"></div>
+                      <div style="width:${captains/students.length*100}%;background:#2563eb;" title="队长 ${captains}人"></div>
+                      <div style="width:${members/students.length*100}%;background:#f59e0b;" title="队员 ${members}人"></div>
+                  </div>
+                  <div style="display:flex;gap:16px;margin-top:6px;font-size:12px;color:var(--gray-500);">
+                      <span>🟢 空闲 ${idle}</span><span>🔵 队长 ${captains}</span><span>🟡 队员 ${members}</span>
+                  </div>
+              </div>
+          </div>
+      `;
+  }
+
+  // ================================================================
+  // 初始化
+  // ================================================================
+  captchaText = generateCaptcha();
+  captchaDisplay.textContent = captchaText;
+
+  // 默认显示登录
+  loginPage.style.display = 'flex';
+  mainApp.style.display = 'none';
+
+  // 确保移动端触摸优化
+  document.addEventListener('touchstart', function() {}, { passive: true });
+</script>
+</body>
+</html>
