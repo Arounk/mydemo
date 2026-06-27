@@ -2,124 +2,28 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>校园人才流动 - iPhone 预览</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>校园人才流动</title>
     <style>
-        /* ===== iPhone 外壳样式 ===== */
+        /* ===== 全局重置 ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        body {
-            background: #1a1a1a;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            padding: 20px;
-        }
 
-        .phone-frame {
-            width: 380px;
-            height: 820px;
-            background: #000;
-            border-radius: 44px;
-            padding: 12px;
-            box-shadow: 0 0 0 2px #2a2a2a, 0 20px 60px rgba(0, 0, 0, 0.8);
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .phone-frame .screen {
+        html, body {
             width: 100%;
             height: 100%;
-            border-radius: 32px;
             overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background: #f8fafc;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .phone-frame .notch {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 30px;
-            background: #000;
-            border-radius: 0 0 20px 20px;
-            z-index: 20;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-        .phone-frame .notch .camera {
-            width: 10px;
-            height: 10px;
-            background: #1a1a2e;
-            border-radius: 50%;
-            border: 1px solid #2a2a3e;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
-        }
-        .phone-frame .notch .speaker {
-            width: 40px;
-            height: 6px;
-            background: #1a1a2e;
-            border-radius: 3px;
-        }
-
-        .phone-frame .home-indicator {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 134px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 3px;
-            z-index: 20;
-        }
-
-        .phone-frame .side-btn {
-            position: absolute;
-            right: -2px;
-            width: 3px;
-            height: 30px;
-            background: #1a1a1a;
-            border-radius: 0 2px 2px 0;
-        }
-        .phone-frame .side-btn.top {
-            top: 120px;
-            height: 40px;
-        }
-        .phone-frame .side-btn.mid {
-            top: 180px;
-            height: 80px;
-        }
-        .phone-frame .side-btn.bottom {
-            top: 280px;
-            height: 50px;
-        }
-        .phone-frame .side-btn.left {
-            left: -2px;
-            border-radius: 2px 0 0 2px;
-        }
-        .phone-frame .side-btn.left.top {
-            top: 160px;
-            height: 35px;
-        }
-        .phone-frame .side-btn.left.bottom {
-            top: 220px;
-            height: 70px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         /* ================================================================ */
-        /* 系统样式 (适配手机壳内部) */
+        /* 系统样式 (直接全屏) */
         /* ================================================================ */
 
         #app {
@@ -160,6 +64,8 @@
             --transition: 0.25s ease;
             --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             --bottom-nav-height: 64px;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         /* ===== 通用卡片 ===== */
@@ -337,6 +243,7 @@
             top: 0;
             z-index: 100;
             flex-shrink: 0;
+            padding-top: var(--safe-top);
         }
         .topbar .brand { font-size: 15px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; }
         .topbar .brand span { color: var(--gray-600); font-weight: 400; font-size: 11px; display: none; }
@@ -376,7 +283,7 @@
             align-items: center;
             height: var(--bottom-nav-height);
             padding: 0 4px;
-            padding-bottom: env(safe-area-inset-bottom);
+            padding-bottom: var(--safe-bottom);
             z-index: 200;
             margin-top: auto;
             width: 100%;
@@ -554,7 +461,7 @@
         .lock-card p { font-size: 13px; color: var(--gray-500); line-height: 1.7; max-width: 400px; margin: 0 auto; }
         .lock-card .unlock-hint { margin-top: 14px; font-size: 12px; color: var(--danger); background: #fee2e2; padding: 6px 14px; border-radius: var(--radius-sm); display: inline-block; }
 
-        /* ===== Toast 通知 (固定在屏幕内部顶部) ===== */
+        /* ===== Toast 通知 ===== */
         .toast-container {
             position: sticky;
             top: 0;
@@ -615,117 +522,92 @@
         #app::-webkit-scrollbar-track { background: transparent; }
         #app::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 10px; }
 
-        /* ===== 响应式：小屏适配 ===== */
-        @media (max-width: 400px) {
-            .phone-frame {
-                width: 100%; height: 100vh; border-radius: 0; padding: 0;
-                box-shadow: none; margin: 0;
-            }
-            .phone-frame .screen { border-radius: 0; }
-            .phone-frame .notch, .phone-frame .home-indicator, .phone-frame .side-btn { display: none; }
-            body { padding: 0; background: #f8fafc; }
-            .topbar .brand span { display: none; }
-        }
+        /* ===== 安全区域适配 ===== */
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
             .bottom-nav { padding-bottom: env(safe-area-inset-bottom); }
+            .topbar { padding-top: env(safe-area-inset-top); }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== iPhone 外壳 ===== -->
-    <div class="phone-frame">
-        <div class="side-btn top"></div>
-        <div class="side-btn mid"></div>
-        <div class="side-btn bottom"></div>
-        <div class="side-btn left top"></div>
-        <div class="side-btn left bottom"></div>
+    <!-- ===== 系统根容器 ===== -->
+    <div id="app">
 
-        <div class="notch">
-            <span class="camera"></span>
-            <span class="speaker"></span>
+        <!-- Toast 容器 -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- 登录页 -->
+        <div id="loginPage">
+            <div class="login-box">
+                <div class="logo">
+                    <h1>校园人才流动</h1>
+                    <p>大创项目匹配平台 · v6.0</p>
+                </div>
+                <div class="form-group">
+                    <label>学号 / 工号</label>
+                    <input type="text" id="loginId" placeholder="请输入学号或工号" value="2024001">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="loginPwd" placeholder="请输入密码" value="123456">
+                </div>
+                <div class="form-group">
+                    <label>验证码</label>
+                    <div class="captcha-row">
+                        <input type="text" id="captchaInput" placeholder="请输入验证码" maxlength="4" autocomplete="off">
+                        <span class="captcha-box" id="captchaDisplay">A7K2</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-login" id="loginBtn">登录</button>
+                <div class="demo-hint">
+                    <strong>演示账号</strong><br>
+                    空闲学生：2024001 / 123456<br>
+                    队长学生：2024002 / 123456<br>
+                    队员学生：2024003 / 123456<br>
+                    教师：T2024001 / 123456<br>
+                    管理员：admin / 123456
+                </div>
+            </div>
         </div>
 
-        <div class="screen">
-            <div id="app">
-                <!-- Toast 容器放在最顶部，sticky 定位 -->
-                <div class="toast-container" id="toastContainer"></div>
-
-                <!-- 登录页 -->
-                <div id="loginPage">
-                    <div class="login-box">
-                        <div class="logo">
-                            <h1>校园人才流动</h1>
-                            <p>大创项目匹配平台 · v6.0</p>
-                        </div>
-                        <div class="form-group">
-                            <label>学号 / 工号</label>
-                            <input type="text" id="loginId" placeholder="请输入学号或工号" value="2024001">
-                        </div>
-                        <div class="form-group">
-                            <label>密码</label>
-                            <input type="password" id="loginPwd" placeholder="请输入密码" value="123456">
-                        </div>
-                        <div class="form-group">
-                            <label>验证码</label>
-                            <div class="captcha-row">
-                                <input type="text" id="captchaInput" placeholder="请输入验证码" maxlength="4" autocomplete="off">
-                                <span class="captcha-box" id="captchaDisplay">A7K2</span>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-login" id="loginBtn">登录</button>
-                        <div class="demo-hint">
-                            <strong>演示账号</strong><br>
-                            空闲学生：2024001 / 123456<br>
-                            队长学生：2024002 / 123456<br>
-                            队员学生：2024003 / 123456<br>
-                            教师：T2024001 / 123456<br>
-                            管理员：admin / 123456
-                        </div>
-                    </div>
+        <!-- 主应用 -->
+        <div id="mainApp">
+            <header class="topbar">
+                <div class="brand">校园人才流动 <span>| 大创项目匹配平台</span></div>
+                <div class="user-info">
+                    <span class="role-tag" id="currentRoleTag">学生</span>
+                    <span class="name" id="currentUserName">张同学</span>
+                    <div class="avatar" id="currentAvatar">张</div>
+                    <span class="logout-btn" id="logoutBtn">退出</span>
                 </div>
+            </header>
+            <div class="main-body">
+                <aside class="sidebar" id="sidebar"></aside>
+                <div class="content-area" id="contentArea"></div>
+            </div>
+            <nav class="bottom-nav" id="bottomNav"></nav>
+        </div>
 
-                <!-- 主应用 -->
-                <div id="mainApp">
-                    <header class="topbar">
-                        <div class="brand">校园人才流动 <span>| 大创项目匹配平台</span></div>
-                        <div class="user-info">
-                            <span class="role-tag" id="currentRoleTag">学生</span>
-                            <span class="name" id="currentUserName">张同学</span>
-                            <div class="avatar" id="currentAvatar">张</div>
-                            <span class="logout-btn" id="logoutBtn">退出</span>
-                        </div>
-                    </header>
-                    <div class="main-body">
-                        <aside class="sidebar" id="sidebar"></aside>
-                        <div class="content-area" id="contentArea"></div>
-                    </div>
-                    <nav class="bottom-nav" id="bottomNav"></nav>
-                </div>
+        <!-- 模态框 -->
+        <div class="modal-overlay" id="projectModal">
+            <div class="modal-box">
+                <button class="close-btn" id="closeModalBtn">&times;</button>
+                <div id="modalContent"></div>
+            </div>
+        </div>
 
-                <!-- 模态框 -->
-                <div class="modal-overlay" id="projectModal">
-                    <div class="modal-box">
-                        <button class="close-btn" id="closeModalBtn">&times;</button>
-                        <div id="modalContent"></div>
-                    </div>
-                </div>
+        <!-- 加载遮罩 -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <p>正在连接教务系统进行身份验证...</p>
+            <p style="font-size:13px;opacity:0.8;margin-top:4px;">请稍候</p>
+        </div>
 
-                <!-- 加载遮罩 -->
-                <div class="loading-overlay" id="loadingOverlay">
-                    <div class="spinner"></div>
-                    <p>正在连接教务系统进行身份验证...</p>
-                    <p style="font-size:13px;opacity:0.8;margin-top:4px;">请稍候</p>
-                </div>
-
-            </div> <!-- end #app -->
-        </div> <!-- end .screen -->
-
-        <div class="home-indicator"></div>
-    </div>
+    </div> <!-- end #app -->
 
     <!-- ================================================================ -->
-    <!-- 系统 JavaScript (完整保留，仅调整 Toast 容器引用) -->
+    <!-- 系统 JavaScript (完整保留) -->
     <!-- ================================================================ -->
     <script>
         // ================================================================
